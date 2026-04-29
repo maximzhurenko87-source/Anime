@@ -7926,5 +7926,482 @@ renderAll();
 })();
 </script>
 
+
+<script id="v26-orihime-real-combat-core">
+(function(){
+  if (window.__gachiV26OrihimeRealCoreLoaded) return;
+  window.__gachiV26OrihimeRealCoreLoaded = true;
+
+  const BUILD_V26 = "BUILD v2.6 ORIHIME REAL COMBAT CORE";
+  const ORIHIME_ID = "orihime-inoue-school-temptations";
+
+  function r(v) { return Math.round(Number(v) || 0); }
+  function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+  function badge() {
+    let b = document.getElementById("buildBadgeV26");
+    if (!b) {
+      b = document.createElement("div");
+      b.id = "buildBadgeV26";
+      b.className = "chip";
+      b.style.position = "fixed";
+      b.style.left = "50%";
+      b.style.top = "12px";
+      b.style.transform = "translateX(-50%)";
+      b.style.zIndex = "1400";
+      b.style.background = "linear-gradient(90deg, rgba(255,215,109,.96), rgba(255,255,255,.96), rgba(166,97,255,.96))";
+      b.style.color = "#160916";
+      b.style.border = "1px solid rgba(255,255,255,.55)";
+      b.style.boxShadow = "0 12px 30px rgba(0,0,0,.36)";
+      b.style.pointerEvents = "none";
+      document.body.appendChild(b);
+    }
+    b.textContent = BUILD_V26;
+  }
+
+  function isOrihimeUnit(unit) {
+    return !!unit && unit.cardId === ORIHIME_ID;
+  }
+
+  function ensureOrihimeCard() {
+    const card = baseCards.find(c => c && c.id === ORIHIME_ID);
+    if (!card) return null;
+
+    Object.assign(card, {
+      id: ORIHIME_ID,
+      name: "Орихиме Иноуэ",
+      rarity: "ssr",
+      role: "support",
+      subRole: "healer",
+      series: "Орихиме Иноуэ",
+      line: "Школьные соблазны",
+      border: "orihime-royal",
+      atkStat: 62,
+      hpStat: 240,
+      defStat: 48,
+      normalAttackName: "Базовая атака",
+      skillName: "Смущённое Исцеление",
+      skillDamage: 0,
+      skillEffectText: "Восстанавливает 42% здоровья союзнику с самым низким текущим HP и повышает защиту всей команды на 25% на 2 хода.",
+      ultimateName: "Защитные Объятия",
+      ultimateDamage: 0,
+      ultimateEffect: "Восстанавливает 55% здоровья всем союзникам и накладывает на всю команду щит 30% от максимального HP на 2 хода."
+    });
+
+    return card;
+  }
+
+  function alliesOf(unit) {
+    if (!unit || !state) return [];
+    if (unit.team === "player") {
+      if (Array.isArray(state.playerTeam)) return state.playerTeam.filter(Boolean);
+      return state.player ? [state.player] : [];
+    }
+    if (Array.isArray(state.enemyTeam)) return state.enemyTeam.filter(Boolean);
+    return state.enemy ? [state.enemy] : [];
+  }
+
+  function aliveAlliesOf(unit) {
+    return alliesOf(unit).filter(ally => ally && ally.alive && Number(ally.hp || 0) > 0);
+  }
+
+  function lowestHpAlly(unit) {
+    const alive = aliveAlliesOf(unit);
+    if (!alive.length) return null;
+    return alive.reduce((lowest, ally) => Number(ally.hp || 0) < Number(lowest.hp || 0) ? ally : lowest, alive[0]);
+  }
+
+  function healUnit(unit, amount) {
+    if (!unit || !unit.alive) return 0;
+    const maxHp = Math.max(1, Number(unit.maxHp || unit.hp || 1));
+    const before = Number(unit.hp || 0);
+    unit.hp = Math.min(maxHp, before + Math.max(0, r(amount)));
+    return unit.hp - before;
+  }
+
+  function applyDefenseUp(unit, percent, turns) {
+    if (!unit || !unit.alive) return 0;
+    unit.defUpValue = percent;
+    unit.defUpTurns = turns;
+    return Math.max(1, r(Number(unit.baseDef || unit.def || 0) * percent));
+  }
+
+  function applyOrihimeShield(unit, turns) {
+    if (!unit || !unit.alive) return 0;
+    const shieldAmount = Math.max(1, r(Number(unit.maxHp || 1) * 0.30));
+    unit.shield = Math.max(Number(unit.shield || 0), shieldAmount);
+    unit.orihimeShieldAmount = shieldAmount;
+    unit.orihimeShieldTurns = turns;
+    return shieldAmount;
+  }
+
+  function addUlt(unit, amount) {
+    if (!unit) return;
+    unit.ult = clamp(Number(unit.ult || 0) + Number(amount || 0), 0, 100);
+  }
+
+  const oldEffectiveDefV26 = typeof effectiveDef === "function" ? effectiveDef : null;
+  window.effectiveDef = function(unit) {
+    if (!unit) return 0;
+    const base = Number(unit.baseDef || unit.def || 0);
+    const up = Number(unit.defUpTurns || 0) > 0 ? Number(unit.defUpValue || 0) : 0;
+    const down = Number(unit.defDownTurns || 0) > 0 ? Number(unit.defDownValue || 0) : 0;
+    return Math.max(0, r(base * (1 + up) * (1 - down)));
+  };
+  try { effectiveDef = window.effectiveDef; } catch(e) {}
+
+  const oldTickV26 = typeof tickUnitDurations === "function" ? tickUnitDurations : null;
+  window.tickUnitDurations = function(unit) {
+    if (oldTickV26) oldTickV26(unit);
+    if (!unit) return;
+
+    if (Number(unit.defUpTurns || 0) > 0) {
+      unit.defUpTurns = Math.max(0, Number(unit.defUpTurns || 0) - 1);
+      if (unit.defUpTurns <= 0) unit.defUpValue = 0;
+    }
+
+    if (Number(unit.orihimeShieldTurns || 0) > 0) {
+      unit.orihimeShieldTurns = Math.max(0, Number(unit.orihimeShieldTurns || 0) - 1);
+      if (unit.orihimeShieldTurns <= 0) {
+        const oldShield = Number(unit.shield || 0);
+        const oriShield = Number(unit.orihimeShieldAmount || 0);
+        unit.shield = Math.max(0, oldShield - oriShield);
+        unit.orihimeShieldAmount = 0;
+      }
+    }
+  };
+  try { tickUnitDurations = window.tickUnitDurations; } catch(e) {}
+
+  const oldNextRoundV26 = typeof nextRound === "function" ? nextRound : null;
+  window.nextRound = function() {
+    state.round += 1;
+    state.energy = Math.min(MAX_TEAM_ENERGY, START_TEAM_ENERGY + state.round - 1);
+
+    [state.player, state.enemy].forEach(unit => {
+      if (!unit) return;
+      if (!unit.orihimeShieldTurns || unit.orihimeShieldTurns <= 0) {
+        unit.shield = Math.max(0, Math.floor(Number(unit.shield || 0) * 0.35));
+      }
+    });
+
+    tickUnitDurations(state.player);
+    tickUnitDurations(state.enemy);
+  };
+  try { nextRound = window.nextRound; } catch(e) {}
+
+  function canActPlayer() {
+    return !!(state && !state.gameOver && state.turn === "player" && state.player && state.player.alive && Number(state.player.skipTurns || 0) <= 0);
+  }
+
+  function finishPlayer(extraTurn) {
+    checkGameOver();
+    if (state.gameOver) {
+      renderBattle();
+      return;
+    }
+
+    if (extraTurn) {
+      state.turn = "player";
+      state.energy = Math.min(MAX_TEAM_ENERGY, state.energy + 1);
+      renderBattle();
+      return;
+    }
+
+    state.turn = "enemy";
+    renderBattle();
+    setTimeout(enemyTurn, 650);
+  }
+
+  function finishEnemy(extraTurn) {
+    checkGameOver();
+    if (state.gameOver) {
+      renderBattle();
+      return;
+    }
+
+    if (extraTurn) {
+      renderBattle();
+      setTimeout(enemyTurn, 650);
+      return;
+    }
+
+    state.turn = "player";
+    nextRound();
+
+    if (state.player.skipTurns > 0) {
+      state.player.skipTurns -= 1;
+      logCombat(`${state.player.name} пропускает ход.`);
+      state.turn = "enemy";
+      renderBattle();
+      setTimeout(enemyTurn, 650);
+      return;
+    }
+
+    renderBattle();
+  }
+
+  function orihimeBasicAction(actor, target) {
+    const atk = typeof effectiveAtk === "function" ? effectiveAtk(actor) : Number(actor.baseAtk || actor.atk || 0);
+    dealDamage(actor, target, atk, "Базовая атака");
+    addUlt(actor, 25);
+    addUlt(target, 8);
+    return { ok: true, extra: false };
+  }
+
+  function orihimeSkillAction(actor) {
+    const alive = aliveAlliesOf(actor);
+    const target = lowestHpAlly(actor);
+
+    if (!target || !alive.length) {
+      logCombat("Навык не сработал: нет живых союзников.");
+      return { ok: false, extra: false };
+    }
+
+    logCombat(`${actor.name} использует «${actor.skillName || "Смущённое Исцеление"}».`);
+
+    const healAmount = r(Number(target.maxHp || 0) * 0.42);
+    const realHeal = healUnit(target, healAmount);
+
+    alive.forEach(ally => applyDefenseUp(ally, 0.25, 2));
+
+    animateHeal(actor.team);
+    logCombat(`${target.name} восстановила ${realHeal}/${healAmount} здоровья.`);
+    logCombat("Защита команды повышена на 25% на 2 хода.");
+
+    addUlt(actor, 20);
+    return { ok: true, extra: false };
+  }
+
+  function orihimeUltAction(actor) {
+    const alive = aliveAlliesOf(actor);
+
+    if (!alive.length) {
+      logCombat("Ульта не сработала: нет живых союзников.");
+      return { ok: false, extra: false };
+    }
+
+    logCombat(`${actor.name} использует «${actor.ultimateName || "Защитные Объятия"}».`);
+
+    let totalHeal = 0;
+    let totalShield = 0;
+
+    alive.forEach(ally => {
+      const healAmount = r(Number(ally.maxHp || 0) * 0.55);
+      totalHeal += healUnit(ally, healAmount);
+      totalShield += applyOrihimeShield(ally, 2);
+    });
+
+    actor.ult = 0;
+    animateHeal(actor.team);
+    logCombat(`Все союзники восстановили ${totalHeal} здоровья.`);
+    logCombat(`Команда получила щит ${totalShield} на 2 хода.`);
+
+    return { ok: true, extra: false };
+  }
+
+  const oldUseBasicAttackV26 = typeof useBasicAttack === "function" ? useBasicAttack : null;
+  const oldUseSkillV26 = typeof useSkill === "function" ? useSkill : null;
+  const oldUseUltimateV26 = typeof useUltimate === "function" ? useUltimate : null;
+
+  window.useBasicAttack = function() {
+    if (!isOrihimeUnit(state.player)) {
+      if (oldUseBasicAttackV26) return oldUseBasicAttackV26();
+      return;
+    }
+    if (!canActPlayer()) return;
+    orihimeBasicAction(state.player, state.enemy);
+    finishPlayer(false);
+  };
+  try { useBasicAttack = window.useBasicAttack; } catch(e) {}
+
+  window.useSkill = function() {
+    if (!isOrihimeUnit(state.player)) {
+      if (oldUseSkillV26) return oldUseSkillV26();
+      return;
+    }
+    if (!canActPlayer()) return;
+
+    if (state.energy < 2) {
+      logCombat("Не хватает энергии для навыка.");
+      renderBattle();
+      return;
+    }
+
+    state.energy -= 2;
+    const result = orihimeSkillAction(state.player);
+    if (result.ok) finishPlayer(false);
+    else renderBattle();
+  };
+  try { useSkill = window.useSkill; } catch(e) {}
+
+  window.useUltimate = function() {
+    if (!isOrihimeUnit(state.player)) {
+      if (oldUseUltimateV26) return oldUseUltimateV26();
+      return;
+    }
+    if (!canActPlayer()) return;
+
+    if (Number(state.player.ult || 0) < 100) {
+      logCombat("Ульта ещё не заряжена.");
+      renderBattle();
+      return;
+    }
+
+    const result = orihimeUltAction(state.player);
+    if (result.ok) finishPlayer(false);
+    else renderBattle();
+  };
+  try { useUltimate = window.useUltimate; } catch(e) {}
+
+  const oldEnemyTurnV26 = typeof enemyTurn === "function" ? enemyTurn : null;
+  window.enemyTurn = function() {
+    if (!state || state.gameOver || !state.enemy || !state.enemy.alive) return;
+
+    if (!isOrihimeUnit(state.enemy)) {
+      if (oldEnemyTurnV26) return oldEnemyTurnV26();
+      return;
+    }
+
+    if (Number(state.enemy.skipTurns || 0) > 0) {
+      state.enemy.skipTurns -= 1;
+      logCombat(`${state.enemy.name} пропускает ход.`);
+      state.turn = "player";
+      nextRound();
+      renderBattle();
+      return;
+    }
+
+    let result;
+    if (Number(state.enemy.ult || 0) >= 100) {
+      result = orihimeUltAction(state.enemy);
+    } else if (state.round >= 2 && Math.random() < 0.72) {
+      result = orihimeSkillAction(state.enemy);
+    } else {
+      result = orihimeBasicAction(state.enemy, state.player);
+    }
+
+    finishEnemy(!!result.extra);
+  };
+  try { enemyTurn = window.enemyTurn; } catch(e) {}
+
+  const oldGetBattleActionMetaV26 = typeof getBattleActionMeta === "function" ? getBattleActionMeta : null;
+  window.getBattleActionMeta = function(unit) {
+    if (isOrihimeUnit(unit)) {
+      const atk = typeof effectiveAtk === "function" ? effectiveAtk(unit) : Number(unit.baseAtk || unit.atk || 0);
+      const skillTarget = lowestHpAlly(unit) || unit;
+      const skillHeal = r(Number(skillTarget.maxHp || 0) * 0.42);
+      const ultHeal = r(Number(unit.maxHp || 0) * 0.55);
+      const shield = r(Number(unit.maxHp || 0) * 0.30);
+      const defNow = typeof effectiveDef === "function" ? effectiveDef(unit) : Number(unit.baseDef || unit.def || 0);
+
+      return {
+        basicTitle: unit.basicName || "Базовая атака",
+        basicDesc: `${atk} урона · +25 ULT`,
+        skillTitle: `Навык «${unit.skillName || "Смущённое Исцеление"}»`,
+        skillDesc: `Лечение ${skillHeal} HP · DEF +25% на 2 хода · текущая DEF ${defNow} · 2 энергии`,
+        ultimateTitle: `Ульта «${unit.ultimateName || "Защитные Объятия"}»`,
+        ultimateDesc: Number(unit.ult || 0) >= 100 ? `Лечение ${ultHeal} HP · щит ${shield} на 2 хода` : `заряд ${unit.ult || 0}/100`
+      };
+    }
+
+    return oldGetBattleActionMetaV26 ? oldGetBattleActionMetaV26(unit) : {
+      basicTitle: "Базовая атака",
+      basicDesc: "",
+      skillTitle: "Навык",
+      skillDesc: "",
+      ultimateTitle: "Ульта",
+      ultimateDesc: ""
+    };
+  };
+  try { getBattleActionMeta = window.getBattleActionMeta; } catch(e) {}
+
+  function rebindOrihimeButtons() {
+    if (!state || !isOrihimeUnit(state.player)) return;
+
+    const can = canActPlayer();
+    const meta = getBattleActionMeta(state.player);
+
+    const specs = [
+      ["basicAttackBtn", meta.basicTitle, meta.basicDesc, useBasicAttack, false],
+      ["skillBtn", meta.skillTitle, meta.skillDesc, useSkill, state.energy < 2],
+      ["ultimateBtn", meta.ultimateTitle, meta.ultimateDesc, useUltimate, Number(state.player.ult || 0) < 100]
+    ];
+
+    specs.forEach(([key, title, desc, handler, disabledExtra]) => {
+      const oldBtn = els[key];
+      if (!oldBtn) return;
+
+      const btn = oldBtn.cloneNode(false);
+      btn.id = oldBtn.id;
+      btn.className = oldBtn.className;
+      btn.type = "button";
+      btn.innerHTML = `<strong>${title}</strong><small>${desc}</small>`;
+      btn.disabled = !can || disabledExtra;
+      btn.dataset.v26OrihimeBound = "1";
+
+      btn.addEventListener("click", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        handler();
+      }, true);
+
+      oldBtn.replaceWith(btn);
+      els[key] = btn;
+    });
+  }
+
+  const oldRenderCombatantV26 = typeof renderCombatant === "function" ? renderCombatant : null;
+  window.renderCombatant = function(side, unit) {
+    if (oldRenderCombatantV26) oldRenderCombatantV26(side, unit);
+
+    const badgeEl = side === "player" ? els.playerStatusBadge : els.enemyStatusBadge;
+    if (!badgeEl || !unit) return;
+
+    const effects = [];
+    if (Number(unit.defUpTurns || 0) > 0) effects.push(`🛡 DEF +25%: ${unit.defUpTurns}`);
+    if (Number(unit.orihimeShieldTurns || 0) > 0) effects.push(`💠 Щит: ${unit.shield || 0} (${unit.orihimeShieldTurns})`);
+
+    if (effects.length) {
+      const oldText = badgeEl.textContent ? `${badgeEl.textContent} · ` : "";
+      badgeEl.textContent = `${oldText}${effects.join(" · ")}`;
+      badgeEl.classList.remove("hidden");
+    }
+  };
+  try { renderCombatant = window.renderCombatant; } catch(e) {}
+
+  const oldRenderBattleV26 = typeof renderBattle === "function" ? renderBattle : null;
+  window.renderBattle = function() {
+    const result = oldRenderBattleV26 ? oldRenderBattleV26.apply(this, arguments) : undefined;
+    rebindOrihimeButtons();
+    badge();
+    return result;
+  };
+  try { renderBattle = window.renderBattle; } catch(e) {}
+
+  const oldRenderAllV26 = typeof renderAll === "function" ? renderAll : null;
+  window.renderAll = function() {
+    ensureOrihimeCard();
+    const result = oldRenderAllV26 ? oldRenderAllV26.apply(this, arguments) : undefined;
+    badge();
+    rebindOrihimeButtons();
+    return result;
+  };
+  try { renderAll = window.renderAll; } catch(e) {}
+
+  ensureOrihimeCard();
+  badge();
+  if (typeof renderAll === "function") renderAll();
+
+  setInterval(() => {
+    try {
+      ensureOrihimeCard();
+      badge();
+      rebindOrihimeButtons();
+    } catch(e) {}
+  }, 800);
+})();
+</script>
+
 </body>
 </html>
