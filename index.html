@@ -2006,6 +2006,122 @@ select {
 @media (min-width:720px){.dummy-controls-v20{grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style>
 
+
+<style id="v21-update-style">
+.build-badge-v21 {
+  position: fixed;
+  top: max(10px, env(safe-area-inset-top));
+  left: 50%;
+  z-index: 120;
+  transform: translateX(-50%);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: .78rem;
+  font-weight: 950;
+  letter-spacing: .04em;
+  color: #06100c;
+  background: linear-gradient(90deg, #74ffd1, #ffd76d, #ff6b4a, #74ffd1);
+  background-size: 240% 100%;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35), 0 0 22px rgba(116,255,209,.24);
+  animation: v21Shift 3.2s linear infinite;
+  pointer-events: none;
+}
+.collection-filter-panel-v21 {
+  margin: 0 0 14px;
+  padding: 12px;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.055);
+  display: grid;
+  gap: 12px;
+}
+.filter-row-v21 {
+  display: grid;
+  gap: 8px;
+}
+.filter-row-v21 strong {
+  color: var(--muted);
+  font-size: .82rem;
+}
+.filter-buttons-v21 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.filter-tab-v21 {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 9px 12px;
+  background: rgba(255,255,255,.07);
+  color: var(--text);
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+.filter-tab-v21.active {
+  border-color: rgba(255,255,255,.28);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 38%, rgba(255,255,255,.08)), color-mix(in srgb, var(--accent-2) 32%, rgba(255,255,255,.08)));
+  box-shadow: 0 0 22px rgba(255,255,255,.08) inset, 0 10px 22px rgba(0,0,0,.18);
+}
+.rarity-ssrplus-mystery-v21 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 235px;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255, 75, 45, .34), transparent 28%),
+    radial-gradient(circle at 50% 54%, rgba(255, 215, 109, .22), transparent 35%),
+    linear-gradient(135deg, rgba(40, 5, 12, .96), rgba(9, 4, 10, .98));
+  overflow: hidden;
+}
+.rarity-ssrplus-mystery-v21::before {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  background: conic-gradient(from 0deg, transparent, rgba(255,215,109,.22), transparent, rgba(255,73,45,.28), transparent);
+  animation: v21Spin 7s linear infinite;
+}
+.rarity-ssrplus-title-v21 {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 8px;
+  font-size: clamp(1.2rem, 5vw, 2.2rem);
+  font-weight: 1000;
+  letter-spacing: .08em;
+  background: linear-gradient(90deg, #ff3f2b, #ffd76d, #fff1b0, #ff6046, #ffd76d);
+  background-size: 280% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: v21Shift 2.4s linear infinite;
+  text-shadow: 0 0 24px rgba(255,90,54,.32);
+}
+.rarity-ssrplus-question-v21 {
+  position: relative;
+  z-index: 2;
+  font-size: clamp(5rem, 28vw, 11rem);
+  line-height: .8;
+  font-weight: 1000;
+  color: rgba(255,255,255,.9);
+  text-shadow: 0 0 18px rgba(255,215,109,.5), 0 0 56px rgba(255,77,45,.35);
+}
+.formula-line-v21 {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  color: #ffd76d;
+  font-weight: 900;
+}
+.gacha-banner-slide-v16 .rarity-ssrplus-mystery-v21 {
+  min-height: 100%;
+}
+@keyframes v21Shift { 0% { background-position: 0% 50%; } 100% { background-position: 280% 50%; } }
+@keyframes v21Spin { to { transform: rotate(360deg); } }
+</style>
+
 </head>
 <body data-theme="standard">
   <div id="ageGate" class="age-gate">
@@ -5955,6 +6071,813 @@ renderAll();
   window.renderAll=renderAll=function(){normalizeBlade();ensureRarity();oldRenderAll();showBadge();enhanceDummy();buildBanner();bindCombatButtons();};
 
   normalizeBlade();ensureRarity();saveProgress();showBadge();renderAll();
+})();
+</script>
+
+
+<script id="v21-update-script">
+(function(){
+  if (window.__gachiV21UpdateLoaded) return;
+  window.__gachiV21UpdateLoaded = true;
+
+  const BUILD = "BUILD v2.1 HP/RAIDEN/FILTER CORE";
+  const BLADE_ID = "blade-hsr-m";
+  const OLD_BLADE_IDS = ["blade-living-in-fire", "blade-hsr-m"];
+  const SSRPLUS_IDS = ["raiden-deep-absorption"];
+  const filterState = {
+    rarities: new Set(),
+    roles: new Set()
+  };
+
+  function ensureBadge() {
+    let badge = document.getElementById("buildBadgeV21");
+    if (!badge) {
+      badge = document.createElement("div");
+      badge.id = "buildBadgeV21";
+      badge.className = "build-badge-v21";
+      document.body.appendChild(badge);
+    }
+    badge.textContent = BUILD;
+  }
+
+  function isBladeId(id) {
+    return OLD_BLADE_IDS.includes(id);
+  }
+
+  function findCard(id) {
+    if (isBladeId(id)) {
+      return baseCards.find(card => card && (OLD_BLADE_IDS.includes(card.id) || card.name === "Блейд")) || baseCards[0];
+    }
+    return baseCards.find(card => card && card.id === id) || baseCards[0];
+  }
+
+  function normalizeBladeCard() {
+    const blade = findCard(BLADE_ID);
+    if (!blade) return null;
+
+    let copies = 0;
+    OLD_BLADE_IDS.forEach(id => {
+      copies = Math.max(copies, Number(save.owned?.[id] || 0));
+    });
+    copies = Math.max(1, copies);
+
+    blade.id = BLADE_ID;
+    blade.name = "Блейд";
+    blade.rarity = "mssr";
+    blade.border = "emerald-mythic";
+    blade.line = "HSR_M";
+    blade.series = "Blade";
+    blade.role = "dps";
+    blade.subRole = "fighter";
+    blade.atkStat = 90;
+    blade.hpStat = 255;
+    blade.defStat = 50;
+    blade.normalAttackName = "Базовая атака";
+    blade.skillName = "Сломанный клинок всё еще режет.";
+    blade.skillDamage = 90;
+    blade.skillEffectText = "Наносит 90 урона + 30% от текущего HP Блейда. Формула всегда считается от текущего HP прямо в бою. Перезарядка: 3 хода.";
+    blade.ultimateName = "Живущий в огне";
+    blade.ultimateDamage = 0;
+    blade.ultimateEffect = "Повышает текущий максимум HP и текущее HP на 50% от текущего HP на 3 хода. Не ограничивается базовым максимумом.";
+    blade.text = "MSSR-карта линейки HSR_M. Базовая атака: текущая АТК + 50% от текущего HP. Навык: 90 + 30% от текущего HP, КД 3 хода. Ульта: повышает текущий максимум HP и текущее HP на 50% от текущего HP на 3 хода. Пассивная способность «Бесконечная Ярость»: при X5 Блейд возрождается 1 раз за бой после смерти.";
+
+    save.owned[BLADE_ID] = Math.max(Number(save.owned[BLADE_ID] || 0), copies);
+    OLD_BLADE_IDS.forEach(id => {
+      if (id !== BLADE_ID) delete save.owned[id];
+    });
+
+    if (save.selectedBattleCardId === "blade-living-in-fire") save.selectedBattleCardId = BLADE_ID;
+    if (save.avatarCardId === "blade-living-in-fire") save.avatarCardId = BLADE_ID;
+    if (save.backgroundCardId === "blade-living-in-fire") save.backgroundCardId = BLADE_ID;
+
+    rarityNames.mssr = "MSSR";
+    return blade;
+  }
+
+  function normalizeRaidenCard() {
+    const raiden = findCard("raiden-deep-absorption");
+    if (!raiden) return null;
+
+    raiden.rarity = "ssrplus";
+    raiden.role = "dps";
+    raiden.subRole = "debuffer";
+    raiden.atkStat = 95;
+    raiden.hpStat = 245;
+    raiden.defStat = 45;
+    raiden.normalAttackName = "Базовая атака";
+    raiden.skillName = "Глубокий Захват";
+    raiden.skillDamage = 55;
+    raiden.skillEffectText = "Наносит 55 урона одному противнику, повышает свою атаку на 50% на 2 хода. С 40% шансом накладывает «Задыхающийся»: противник пропускает следующий ход.";
+    raiden.ultimateName = "Божественный Глоток Вечности";
+    raiden.ultimateDamage = 85;
+    raiden.ultimateEffect = "Наносит 85 урона одному противнику, повышает свою атаку на 70% на 3 хода и накладывает «Покорность Вечности»: цель получает +60% входящего урона и теряет 40% защиты на 3 хода. С 50% шансом станит цель на 1 ход.";
+    raiden.text = "SSR+-карта линейки «Глубокое Поглощение». Мифическая карточка с красной оконтовкой, переливающейся золотом. Механики Райден теперь в бою считаются строго по описанию: навык даёт +50% АТК, ульта даёт +70% АТК и накладывает уязвимость/снижение защиты.";
+    return raiden;
+  }
+
+  normalizeBladeCard();
+  normalizeRaidenCard();
+
+  window.getCard = getCard = function(id) {
+    if (isBladeId(id)) return normalizeBladeCard() || baseCards[0];
+    return findCard(id);
+  };
+
+  function copiesOf(cardId) {
+    const id = isBladeId(cardId) ? BLADE_ID : cardId;
+    return Math.max(1, Number(save.owned?.[id] || 1));
+  }
+
+  function dupeLabel(cardId) {
+    return `X${Math.min(5, copiesOf(cardId))}`;
+  }
+
+  function nameWithX(card) {
+    return `${card.name} <span class="dupe-name-v16">${dupeLabel(card.id)}</span>`;
+  }
+
+  function isBlade(unitOrId) {
+    const id = typeof unitOrId === "string" ? unitOrId : unitOrId?.cardId;
+    return isBladeId(id);
+  }
+
+  window.getDuplicateLevel = getDuplicateLevel = function(cardId) {
+    const copies = copiesOf(cardId);
+    if (isBladeId(cardId)) return Math.min(5, copies);
+    return Math.min(4, Math.max(0, copies - 1));
+  };
+
+  window.getDuplicateBonus = getDuplicateBonus = function(cardId) {
+    const level = getDuplicateLevel(cardId);
+    if (level >= 4) return { hp: 0.2, def: 0.2, atk: 0.2, level };
+    if (level === 3) return { hp: 0.1, def: 0.1, atk: 0.1, level };
+    if (level === 2) return { hp: 0.1, def: 0.1, atk: 0, level };
+    if (level === 1 && !isBladeId(cardId)) return { hp: 0.1, def: 0, atk: 0, level };
+    return { hp: 0, def: 0, atk: 0, level };
+  };
+
+  window.duplicateBonusText = duplicateBonusText = function(card) {
+    const label = dupeLabel(card.id);
+    const bonus = getDuplicateBonus(card.id);
+    if (isBladeId(card.id) && getDuplicateLevel(card.id) >= 5) {
+      return `${label}: +20% ко всем характеристикам · пассивка активна: 1 возрождение за бой`;
+    }
+    if (bonus.level >= 4) return `${label}: +20% ко всем характеристикам`;
+    const parts = [];
+    if (bonus.hp) parts.push(`ЗДР +${Math.round(bonus.hp * 100)}%`);
+    if (bonus.def) parts.push(`ЗЩТ +${Math.round(bonus.def * 100)}%`);
+    if (bonus.atk) parts.push(`АТК +${Math.round(bonus.atk * 100)}%`);
+    return `${label}: ${parts.join(" · ") || "базовая версия"}`;
+  };
+
+  function ensureUnitRuntime(unit) {
+    if (!unit) return;
+    unit.cardRef = unit.cardRef || getCard(unit.cardId);
+    unit.baseMaxHp = unit.baseMaxHp || unit.maxHp;
+    unit.skillCooldown = Number(unit.skillCooldown || 0);
+    unit.hpBuffStacks = Array.isArray(unit.hpBuffStacks) ? unit.hpBuffStacks : [];
+    unit.reviveAvailable = isBlade(unit) && getDuplicateLevel(unit.cardId) >= 5;
+    unit.reviveUsed = Boolean(unit.reviveUsed);
+  }
+
+  const previousBuildFighter = buildFighterFromCard;
+  window.buildFighterFromCard = buildFighterFromCard = function(card, team) {
+    const real = getCard(card.id);
+    const fighter = previousBuildFighter(real, team);
+    fighter.cardId = real.id;
+    fighter.cardRef = real;
+    fighter.baseMaxHp = fighter.maxHp;
+    fighter.skillCooldown = 0;
+    fighter.hpBuffStacks = [];
+    fighter.reviveAvailable = isBlade(fighter) && getDuplicateLevel(real.id) >= 5;
+    fighter.reviveUsed = false;
+    return fighter;
+  };
+
+  function currentAtk(unit) {
+    return Math.round(unit.atk * (1 + (unit.atkBuffValue || 0)));
+  }
+
+  function formulaBasic(unit) {
+    ensureUnitRuntime(unit);
+    if (isBlade(unit)) {
+      const atk = currentAtk(unit);
+      const hpPart = Math.round(unit.hp * 0.5);
+      return {
+        raw: atk + hpPart,
+        text: `${atk} + 50% HP ${unit.hp} = ${atk + hpPart}`
+      };
+    }
+    return {
+      raw: currentAtk(unit),
+      text: `${currentAtk(unit)}`
+    };
+  }
+
+  function formulaSkill(unit) {
+    ensureUnitRuntime(unit);
+    if (isBlade(unit)) {
+      const hpPart = Math.round(unit.hp * 0.3);
+      return {
+        raw: 90 + hpPart,
+        text: `90 + 30% HP ${unit.hp} = ${90 + hpPart}`
+      };
+    }
+    if (unit.cardId === "raiden-deep-absorption") {
+      return { raw: 55, text: "55 + бафф АТК 50% на 2 хода + 40% шанс пропуска хода" };
+    }
+    return { raw: unit.skillDamage || 45, text: `${unit.skillDamage || 45}` };
+  }
+
+  function formulaUlt(unit) {
+    ensureUnitRuntime(unit);
+    if (isBlade(unit)) {
+      const add = Math.round(unit.hp * 0.5);
+      return { raw: 0, text: `HP ${unit.hp} + 50% = +${add}` };
+    }
+    if (unit.cardId === "raiden-deep-absorption") {
+      return { raw: 85, text: "85 + АТК 70% на 3 хода + уязвимость цели" };
+    }
+    return { raw: unit.ultimateDamage || 65, text: `${unit.ultimateDamage || 65}` };
+  }
+
+  window.dealDamage = dealDamage = function(attacker, target, rawDamage, sourceText) {
+    ensureUnitRuntime(attacker);
+    ensureUnitRuntime(target);
+
+    if (!target.alive) return 0;
+    if (!attemptHit(attacker, target, sourceText)) return 0;
+
+    const damage = calculateDamage(Math.max(0, Math.round(rawDamage || 0)), target);
+    let remaining = damage;
+
+    if (target.shield > 0) {
+      const blocked = Math.min(target.shield, remaining);
+      target.shield -= blocked;
+      remaining -= blocked;
+    }
+
+    target.hp = Math.max(0, target.hp - remaining);
+    if (remaining > 0) animateHit(target.team);
+    if (target.hp <= 0) target.alive = false;
+
+    logCombat(`${attacker.name}: ${sourceText}. Урон после защиты: ${damage}.`);
+
+    if (isBlade(target) && !target.alive && target.reviveAvailable && !target.reviveUsed) {
+      target.reviveUsed = true;
+      target.alive = true;
+      target.hp = Math.max(1, Math.round(target.maxHp * 0.5));
+      logCombat(`Пассивка «Бесконечная Ярость»: ${target.name} возрождается с ${target.hp} HP.`);
+    }
+
+    return damage;
+  };
+
+  function applyRaidenSkill(actor, target) {
+    const f = formulaSkill(actor);
+    dealDamage(actor, target, f.raw, `Навык «${actor.skillName}»: ${f.text}`);
+    applyAtkBuff(actor, 0.5, 2);
+    gainUlt(actor, 20);
+    gainUlt(target, 8);
+    if (Math.random() < 0.4) {
+      target.skipTurns = Math.max(target.skipTurns, 1);
+      logCombat(`Навык «${actor.skillName}»: урон 55, ${actor.name} получает +50% АТК на 2 хода. Эффект «Задыхающийся»: ${target.name} пропустит следующий ход.`);
+    } else {
+      logCombat(`Навык «${actor.skillName}»: урон 55, ${actor.name} получает +50% АТК на 2 хода. «Задыхающийся» не сработал.`);
+    }
+  }
+
+  function applyRaidenUlt(actor, target) {
+    const f = formulaUlt(actor);
+    dealDamage(actor, target, f.raw, `Ульта «${actor.ultimateName}»: ${f.text}`);
+    applyAtkBuff(actor, 0.7, 3);
+    target.exposedTurns = Math.max(target.exposedTurns || 0, 3);
+    target.exposedMultiplier = Math.max(target.exposedMultiplier || 0, 0.6);
+    target.defDownTurns = Math.max(target.defDownTurns || 0, 3);
+    target.defDownValue = Math.max(target.defDownValue || 0, 0.4);
+    const stunned = Math.random() < 0.5;
+    if (stunned) target.skipTurns = Math.max(target.skipTurns, 1);
+    logCombat(`Ульта «${actor.ultimateName}»: 85 урона, +70% АТК на 3 хода, цель получает +60% входящего урона и -40% DEF на 3 хода${stunned ? ", стан 1 ход" : ""}.`);
+  }
+
+  function applyBladeUlt(actor) {
+    const add = Math.max(1, Math.round(actor.hp * 0.5));
+    actor.maxHp += add;
+    actor.hp += add;
+    actor.hpBuffStacks.push({ amount: add, turns: 3 });
+    animateHeal(actor.team);
+    actor.ult = 0;
+    logCombat(`Ульта «${actor.ultimateName}»: HP выросло на ${add}. Текущее HP ${actor.hp}/${actor.maxHp}. Бафф действует 3 хода.`);
+  }
+
+  function useBasicCore(actor, target) {
+    const f = formulaBasic(actor);
+    dealDamage(actor, target, f.raw, `${actor.basicName}: ${f.text}`);
+    gainUlt(actor, 25);
+    gainUlt(target, actor.team === "player" ? 8 : 10);
+  }
+
+  function useSkillCore(actor, target) {
+    ensureUnitRuntime(actor);
+    ensureUnitRuntime(target);
+
+    if ((actor.skillCooldown || 0) > 0) {
+      logCombat(`Навык «${actor.skillName}» недоступен: перезарядка ${actor.skillCooldown} хода.`);
+      return false;
+    }
+
+    if (actor.cardId === "raiden-deep-absorption") {
+      applyRaidenSkill(actor, target);
+      return true;
+    }
+
+    if (actor.cardId === "yoruichi-wet-shunpo") {
+      applyAtkBuff(actor, 0.6, 2);
+      actor.dodgeChance = Math.max(actor.dodgeChance || 0, 0.4);
+      gainUlt(actor, 20);
+      logCombat(`Навык «${actor.skillName}»: +60% АТК на 2 хода и 40% dodge следующей атаки.`);
+      return true;
+    }
+
+    const f = formulaSkill(actor);
+    dealDamage(actor, target, f.raw, `Навык «${actor.skillName}»: ${f.text}`);
+
+    if (isBlade(actor)) actor.skillCooldown = 3;
+
+    gainUlt(actor, 20);
+    gainUlt(target, 8);
+    return true;
+  }
+
+  function useUltimateCore(actor, target) {
+    ensureUnitRuntime(actor);
+    ensureUnitRuntime(target);
+
+    if (actor.ult < 100) {
+      logCombat("Ульта ещё не заряжена.");
+      return { ok: false, extraTurn: false };
+    }
+
+    if (isBlade(actor)) {
+      applyBladeUlt(actor);
+      return { ok: true, extraTurn: false };
+    }
+
+    actor.ult = 0;
+
+    if (actor.cardId === "raiden-deep-absorption") {
+      applyRaidenUlt(actor, target);
+      return { ok: true, extraTurn: false };
+    }
+
+    if (actor.cardId === "yoruichi-wet-shunpo") {
+      const f = formulaUlt(actor);
+      dealDamage(actor, target, f.raw, `Ульта «${actor.ultimateName}»: ${f.text}`);
+      applyAtkBuff(actor, 0.6, 3);
+      actor.hasteTurns = Math.max(actor.hasteTurns || 0, 3);
+      target.exposedTurns = Math.max(target.exposedTurns || 0, 2);
+      target.exposedMultiplier = Math.max(target.exposedMultiplier || 0, 0.25);
+      target.blindTurns = Math.max(target.blindTurns || 0, 2);
+      logCombat(`Ульта «${actor.ultimateName}»: урон, +АТК/+скорость на 3 хода, цель получает уязвимость и «Ослепление Солнцем» на 2 хода.`);
+      return { ok: true, extraTurn: false };
+    }
+
+    const f = formulaUlt(actor);
+    dealDamage(actor, target, f.raw, `Ульта «${actor.ultimateName}»: ${f.text}`);
+    target.skipTurns = Math.max(target.skipTurns || 0, 1);
+    return { ok: true, extraTurn: true };
+  }
+
+  window.tickUnitDurations = tickUnitDurations = function(unit) {
+    if (!unit) return;
+
+    if (unit.atkBuffTurns > 0) {
+      unit.atkBuffTurns -= 1;
+      if (unit.atkBuffTurns <= 0) unit.atkBuffValue = 0;
+    }
+    if (unit.exposedTurns > 0) {
+      unit.exposedTurns -= 1;
+      if (unit.exposedTurns <= 0) unit.exposedMultiplier = 0;
+    }
+    if (unit.defDownTurns > 0) {
+      unit.defDownTurns -= 1;
+      if (unit.defDownTurns <= 0) unit.defDownValue = 0;
+    }
+    if (unit.blindTurns > 0) unit.blindTurns -= 1;
+    if (unit.hasteTurns > 0) unit.hasteTurns -= 1;
+    if (unit.skillCooldown > 0) unit.skillCooldown -= 1;
+
+    if (Array.isArray(unit.hpBuffStacks) && unit.hpBuffStacks.length) {
+      unit.hpBuffStacks.forEach(buff => buff.turns -= 1);
+      const expired = unit.hpBuffStacks.filter(buff => buff.turns <= 0);
+      unit.hpBuffStacks = unit.hpBuffStacks.filter(buff => buff.turns > 0);
+      expired.forEach(buff => {
+        unit.maxHp = Math.max(unit.baseMaxHp || 1, unit.maxHp - buff.amount);
+        unit.hp = Math.min(unit.hp, unit.maxHp);
+      });
+    }
+  };
+
+  function finishPlayerAction(extraTurn = false) {
+    checkGameOver();
+    if (state.gameOver) {
+      renderBattle();
+      return;
+    }
+    if (extraTurn) {
+      state.turn = "player";
+      state.energy = Math.min(MAX_TEAM_ENERGY, state.energy + 1);
+      renderBattle();
+      return;
+    }
+    state.turn = "enemy";
+    renderBattle();
+    setTimeout(enemyTurn, 650);
+  }
+
+  function finishEnemyAction(extraTurn = false) {
+    checkGameOver();
+    if (state.gameOver) {
+      renderBattle();
+      return;
+    }
+    if (extraTurn) {
+      renderBattle();
+      setTimeout(enemyTurn, 650);
+      return;
+    }
+    state.turn = "player";
+    nextRound();
+
+    if (state.player.skipTurns > 0) {
+      state.player.skipTurns -= 1;
+      logCombat(`${state.player.name} пропускает ход.`);
+      state.turn = "enemy";
+      renderBattle();
+      setTimeout(enemyTurn, 650);
+      return;
+    }
+    renderBattle();
+  }
+
+  window.useBasicAttack = useBasicAttack = function() {
+    if (!canPlayerAct()) return;
+    useBasicCore(state.player, state.enemy);
+    finishPlayerAction(false);
+  };
+
+  window.useSkill = useSkill = function() {
+    if (!canPlayerAct()) return;
+    if ((state.player.skillCooldown || 0) > 0) {
+      logCombat(`Навык «${state.player.skillName}» недоступен: перезарядка ${state.player.skillCooldown} хода.`);
+      renderBattle();
+      return;
+    }
+    if (!spendEnergy(2)) {
+      logCombat("Не хватает энергии для навыка.");
+      renderBattle();
+      return;
+    }
+    if (useSkillCore(state.player, state.enemy)) finishPlayerAction(false);
+  };
+
+  window.useUltimate = useUltimate = function() {
+    if (!canPlayerAct()) return;
+    const result = useUltimateCore(state.player, state.enemy);
+    if (result.ok) finishPlayerAction(result.extraTurn);
+    else renderBattle();
+  };
+
+  window.enemyTurn = enemyTurn = function() {
+    if (state.gameOver || !state.enemy.alive) return;
+
+    ensureUnitRuntime(state.enemy);
+    ensureUnitRuntime(state.player);
+
+    if (state.enemy.skipTurns > 0) {
+      state.enemy.skipTurns -= 1;
+      logCombat(`${state.enemy.name} пропускает ход.`);
+      state.turn = "player";
+      nextRound();
+      renderBattle();
+      return;
+    }
+
+    let result = { extraTurn: false };
+    if (state.enemy.ult >= 100) {
+      result = useUltimateCore(state.enemy, state.player);
+    } else if (state.enemy.skillName && (state.enemy.skillCooldown || 0) <= 0 && state.round >= 2 && Math.random() < 0.72) {
+      useSkillCore(state.enemy, state.player);
+    } else {
+      useBasicCore(state.enemy, state.player);
+    }
+
+    finishEnemyAction(result.extraTurn);
+  };
+
+  function rebindCombatButtons() {
+    const pairs = [
+      ["basicAttackBtn", useBasicAttack],
+      ["skillBtn", useSkill],
+      ["ultimateBtn", useUltimate],
+      ["endTurnBtn", endPlayerTurn],
+      ["guardBtn", useGuard]
+    ];
+    pairs.forEach(([key, handler]) => {
+      if (!els[key]) return;
+      const clone = els[key].cloneNode(true);
+      els[key].replaceWith(clone);
+      els[key] = clone;
+      clone.addEventListener("click", handler);
+    });
+  }
+
+  function roleOf(card) {
+    const raw = `${card.role || ""} ${card.subRole || ""}`.toLowerCase();
+    if (raw.includes("support") || raw.includes("control") || raw.includes("debuff")) return "support";
+    if (raw.includes("tank") || raw.includes("defender")) return "tank";
+    if (raw.includes("heal")) return "healer";
+    if (raw.includes("dps") || raw.includes("fighter") || raw.includes("boss")) return "dps";
+    return card.atkStat >= 80 ? "dps" : "support";
+  }
+
+  function ensureCollectionFilters() {
+    if (document.getElementById("collectionFilterPanelV21")) return;
+
+    if (els.rarityFilter) {
+      els.rarityFilter.style.display = "none";
+      els.rarityFilter.setAttribute("aria-hidden", "true");
+    }
+
+    const panel = document.createElement("div");
+    panel.id = "collectionFilterPanelV21";
+    panel.className = "collection-filter-panel-v21";
+    panel.innerHTML = `
+      <div class="filter-row-v21">
+        <strong>Редкость</strong>
+        <div class="filter-buttons-v21" data-filter-group="rarity">
+          <button class="filter-tab-v21" data-filter-value="sr" type="button">SR</button>
+          <button class="filter-tab-v21" data-filter-value="ssr" type="button">SSR</button>
+          <button class="filter-tab-v21" data-filter-value="ssrplus" type="button">SSR+</button>
+          <button class="filter-tab-v21" data-filter-value="mssr" type="button">MSSR</button>
+        </div>
+      </div>
+      <div class="filter-row-v21">
+        <strong>Роль</strong>
+        <div class="filter-buttons-v21" data-filter-group="role">
+          <button class="filter-tab-v21" data-filter-value="dps" type="button">DPS</button>
+          <button class="filter-tab-v21" data-filter-value="support" type="button">Support</button>
+          <button class="filter-tab-v21" data-filter-value="tank" type="button">Tank</button>
+          <button class="filter-tab-v21" data-filter-value="healer" type="button">Healer</button>
+        </div>
+      </div>
+    `;
+    els.collectionGrid.before(panel);
+
+    panel.querySelectorAll(".filter-tab-v21").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const group = btn.closest("[data-filter-group]").dataset.filterGroup;
+        const value = btn.dataset.filterValue;
+        const set = group === "rarity" ? filterState.rarities : filterState.roles;
+
+        if (set.has(value)) set.delete(value);
+        else set.add(value);
+
+        btn.classList.toggle("active", set.has(value));
+        renderCollection();
+      });
+    });
+  }
+
+  window.renderCollection = renderCollection = function() {
+    normalizeBladeCard();
+    normalizeRaidenCard();
+    ensureCollectionFilters();
+
+    let cards = ownedCards();
+
+    if (filterState.rarities.size > 0) {
+      cards = cards.filter(card => filterState.rarities.has(card.rarity));
+    }
+    if (filterState.roles.size > 0) {
+      cards = cards.filter(card => filterState.roles.has(roleOf(card)));
+    }
+
+    els.collectionGrid.innerHTML = "";
+    if (cards.length === 0) {
+      els.collectionGrid.innerHTML = `<article class="panel"><h3>Пусто</h3><p>Под выбранные вкладки карточек нет.</p></article>`;
+      return;
+    }
+
+    cards.forEach(card => {
+      const item = document.createElement("article");
+      item.className = `collection-card compact-collection-card clickable-card ${getBorderClass(card)} ${save.avatarCardId === card.id ? "selected" : ""}`;
+      item.tabIndex = 0;
+      item.setAttribute("role", "button");
+      item.setAttribute("aria-label", `Открыть карточку ${card.name}`);
+      item.innerHTML = compactCardTemplate(card, true);
+      item.addEventListener("click", () => openCardViewer(getCard(card.id)));
+      els.collectionGrid.appendChild(item);
+    });
+  };
+
+  function makeMysterySSRPlus(card) {
+    return `
+      <div class="rarity-ssrplus-mystery-v21">
+        <div style="position:relative;z-index:2;text-align:center">
+          <div class="rarity-ssrplus-title-v21">SSR+</div>
+          <div class="rarity-ssrplus-question-v21">?</div>
+        </div>
+      </div>
+    `;
+  }
+
+  function rebuildBannerSliderV21() {
+    const banner = document.querySelector(".gacha-banner-v12");
+    if (!banner) return;
+
+    const title = banner.querySelector(".gacha-banner-copy-v12 h3");
+    const eyebrow = banner.querySelector(".gacha-banner-copy-v12 .eyebrow");
+    const desc = banner.querySelector(".gacha-banner-copy-v12 p:not(.eyebrow)");
+    const rateRow = banner.querySelector(".rate-row");
+    const artWrap = banner.querySelector(".gacha-banner-art-v12");
+
+    if (eyebrow) eyebrow.textContent = "Лимитированный баннер · v2.1";
+    if (title) title.textContent = "Изумрудное пламя";
+    if (desc) desc.innerHTML = "Блейд MSSR доступен в гаче. SSR+ в баннере скрыты знаком вопроса, чтобы выпадение выглядело как секретная находка.";
+    if (rateRow) {
+      rateRow.innerHTML = `
+        <span class="mssr-rate-v16">MSSR Блейд 0.8%</span>
+        <span>SSR 1%</span>
+        <span>SSR+ 0.5%</span>
+        <span>SSR гарант: <b id="ssrPityText">${save.gachaSinceSSR || 0}</b>/80</span>
+        <span>SSR+ гарант: <b id="ssrPlusPityText">${save.gachaSinceSSRPlus || 0}</b>/160</span>
+      `;
+    }
+
+    if (!artWrap) return;
+
+    const featured = [BLADE_ID, "yoruichi-wet-shunpo", "raiden-deep-absorption", "nell-tu-home-passion"]
+      .map(id => getCard(id))
+      .filter(Boolean);
+
+    const signature = `v21-${featured.map(card => card.id).join("|")}`;
+    if (artWrap.dataset.v21Slider === signature) return;
+    artWrap.dataset.v21Slider = signature;
+
+    artWrap.innerHTML = `
+      <div class="gacha-banner-slider-v16">
+        <div class="gacha-banner-dots-v16"></div>
+        ${featured.map((card, index) => `
+          <article class="gacha-banner-slide-v16 ${index === 0 ? "active" : ""}" data-card-id="${card.id}" data-slide-index="${index}">
+            ${card.rarity === "ssrplus" ? makeMysterySSRPlus(card) : `<img src="${card.image || ""}" alt="${card.name}">`}
+            <div class="gacha-banner-meta-v16">
+              <span class="gacha-banner-focus-v16">Фокус · ${rarityNames[card.rarity] || card.rarity}</span>
+              <h4>${card.rarity === "ssrplus" ? "Секретная SSR+ карта" : nameWithX(card)}</h4>
+              <p>${card.rarity === "ssrplus" ? "Арт скрыт до получения" : `${card.line || "Лимитированная карта"} · ${card.series || "Коллекция"}`}</p>
+            </div>
+          </article>
+        `).join("")}
+      </div>
+    `;
+
+    const slides = Array.from(artWrap.querySelectorAll(".gacha-banner-slide-v16"));
+    const dotsWrap = artWrap.querySelector(".gacha-banner-dots-v16");
+    let current = 0;
+
+    if (window.__gachiV21BannerTimer) clearInterval(window.__gachiV21BannerTimer);
+
+    function show(index) {
+      current = (index + slides.length) % slides.length;
+      slides.forEach((slide, idx) => slide.classList.toggle("active", idx === current));
+      dotsWrap?.querySelectorAll(".gacha-banner-dot-v16").forEach((dot, idx) => dot.classList.toggle("active", idx === current));
+    }
+
+    if (dotsWrap) {
+      dotsWrap.innerHTML = slides.map((slide, index) => `<button class="gacha-banner-dot-v16 ${index === 0 ? "active" : ""}" type="button" data-index="${index}" aria-label="Слайд ${index + 1}"></button>`).join("");
+      dotsWrap.querySelectorAll(".gacha-banner-dot-v16").forEach(dot => {
+        dot.addEventListener("click", () => show(Number(dot.dataset.index || 0)));
+      });
+    }
+
+    slides.forEach(slide => {
+      slide.addEventListener("click", () => {
+        const card = getCard(slide.dataset.cardId);
+        if (card && card.rarity !== "ssrplus") openCardViewer(card);
+      });
+    });
+
+    window.__gachiV21BannerTimer = setInterval(() => show(current + 1), 2600);
+    show(0);
+  }
+
+  const previousOpenCardViewer = openCardViewer;
+  window.openCardViewer = openCardViewer = function(card) {
+    normalizeBladeCard();
+    normalizeRaidenCard();
+    previousOpenCardViewer(getCard(card.id));
+
+    const real = getCard(card.id);
+    els.viewerName.innerHTML = nameWithX(real);
+
+    if (isBladeId(real.id)) {
+      els.viewerNormalDesc.innerHTML = `<span class="formula-line-v21">Текущая АТК + 50% текущего HP</span>`;
+      els.viewerSkillDesc.innerHTML = `<span class="formula-line-v21">90 + 30% текущего HP · КД 3 хода</span>`;
+      els.viewerUltDesc.innerHTML = `<span class="formula-line-v21">Текущее HP и максимум HP +50% от текущего HP на 3 хода</span>`;
+    }
+
+    if (real.id === "raiden-deep-absorption") {
+      els.viewerSkillDesc.textContent = real.skillEffectText;
+      els.viewerUltDesc.textContent = real.ultimateEffect;
+    }
+  };
+
+  const previousGetBattleActionMeta = getBattleActionMeta;
+  window.getBattleActionMeta = getBattleActionMeta = function(unit) {
+    ensureUnitRuntime(unit);
+
+    if (isBlade(unit)) {
+      const b = formulaBasic(unit);
+      const s = formulaSkill(unit);
+      const u = formulaUlt(unit);
+      return {
+        basicTitle: unit.basicName,
+        basicDesc: b.text,
+        skillTitle: `Навык «${unit.skillName}»`,
+        skillDesc: (unit.skillCooldown || 0) > 0 ? `Перезарядка: ${unit.skillCooldown} хода` : `${s.text} · 2 энергии · КД 3 хода`,
+        ultimateTitle: `Ульта «${unit.ultimateName}»`,
+        ultimateDesc: `${u.text} · нужен 100% ULT`
+      };
+    }
+
+    if (unit.cardId === "raiden-deep-absorption") {
+      return {
+        basicTitle: unit.basicName,
+        basicDesc: `${currentAtk(unit)} урона · +25 ULT`,
+        skillTitle: `Навык «${unit.skillName}»`,
+        skillDesc: "55 урона · +50% АТК на 2 хода · 40% шанс пропуска хода · 2 энергии",
+        ultimateTitle: `Ульта «${unit.ultimateName}»`,
+        ultimateDesc: "85 урона · +70% АТК на 3 хода · +60% входящего урона цели · -40% DEF цели"
+      };
+    }
+
+    return previousGetBattleActionMeta(unit);
+  };
+
+  const previousRenderBattle = renderBattle;
+  window.renderBattle = renderBattle = function() {
+    ensureUnitRuntime(state?.player);
+    ensureUnitRuntime(state?.enemy);
+    previousRenderBattle();
+
+    if (state?.player && els.skillBtn) {
+      const cd = Number(state.player.skillCooldown || 0);
+      els.skillBtn.classList.toggle("cooldown-v16", cd > 0);
+      if (cd > 0) {
+        els.skillBtn.disabled = true;
+        els.skillBtn.innerHTML = `<strong>Навык «${state.player.skillName}»</strong><small>Перезарядка: ${cd} хода</small>`;
+      }
+    }
+  };
+
+  function rebindButtonsAfterOldCode() {
+    [["basicAttackBtn", useBasicAttack], ["skillBtn", useSkill], ["ultimateBtn", useUltimate]].forEach(([key, fn]) => {
+      if (!els[key]) return;
+      const clone = els[key].cloneNode(true);
+      els[key].replaceWith(clone);
+      els[key] = clone;
+      clone.addEventListener("click", fn);
+    });
+  }
+
+  const previousRenderAll = renderAll;
+  window.renderAll = renderAll = function() {
+    normalizeBladeCard();
+    normalizeRaidenCard();
+    previousRenderAll();
+    ensureBadge();
+    ensureCollectionFilters();
+    rebuildBannerSliderV21();
+    rebindButtonsAfterOldCode();
+  };
+
+  rarityNames.mssr = "MSSR";
+  rarityWeights.length = 0;
+  rarityWeights.push(
+    ["common", 53.7],
+    ["rare", 27],
+    ["epic", 12],
+    ["legendary", 3],
+    ["sr", 2],
+    ["ssr", 1],
+    ["mssr", 0.8],
+    ["ssrplus", 0.5]
+  );
+
+  normalizeBladeCard();
+  normalizeRaidenCard();
+  saveProgress();
+  renderAll();
 })();
 </script>
 
