@@ -7422,5 +7422,509 @@ renderAll();
 })();
 </script>
 
+
+<style id="v24-orihime-style-css">
+.orihime-royal-border,
+.card.orihime-royal-border,
+.collection-card.orihime-royal-border,
+.gacha-result.orihime-royal-border,
+.duel-choice.orihime-royal-border,
+.combatant-card.orihime-royal-border {
+  position: relative;
+  border-color: rgba(255, 215, 109, 0.95) !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 215, 109, 0.70),
+    0 0 18px rgba(255, 255, 255, 0.18),
+    0 0 34px rgba(255, 215, 109, 0.28),
+    0 14px 34px rgba(0, 0, 0, 0.28);
+  animation: orihimeRoyalPulse 2.8s linear infinite;
+}
+.orihime-royal-border::before,
+.card.orihime-royal-border::before,
+.collection-card.orihime-royal-border::before,
+.gacha-result.orihime-royal-border::before,
+.duel-choice.orihime-royal-border::before,
+.combatant-card.orihime-royal-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(130deg, rgba(255,215,109,.95), rgba(255,255,255,.98), rgba(196,142,255,.92), rgba(255,231,152,.98));
+  background-size: 220% 220%;
+  animation: orihimeBorderSheen 3.4s linear infinite;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.line-animated-orihime {
+  display: inline-block;
+  font-weight: 900;
+  letter-spacing: .02em;
+  background: linear-gradient(90deg, #ffd76d 0%, #fff7cf 16%, #9e63ff 42%, #ffd76d 66%, #ffffff 80%, #7b4bff 100%);
+  background-size: 240% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 14px rgba(255, 215, 109, 0.12);
+  animation: orihimeLineShift 3.1s linear infinite;
+}
+@keyframes orihimeRoyalPulse {
+  0% {
+    box-shadow:
+      0 0 0 1px rgba(255, 215, 109, 0.58),
+      0 0 12px rgba(255, 255, 255, 0.10),
+      0 0 22px rgba(255, 215, 109, 0.20),
+      0 14px 34px rgba(0, 0, 0, 0.28);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(255, 247, 201, 0.98),
+      0 0 22px rgba(255, 255, 255, 0.26),
+      0 0 36px rgba(255, 215, 109, 0.36),
+      0 14px 34px rgba(0, 0, 0, 0.32);
+  }
+  100% {
+    box-shadow:
+      0 0 0 1px rgba(255, 215, 109, 0.58),
+      0 0 12px rgba(255, 255, 255, 0.10),
+      0 0 22px rgba(255, 215, 109, 0.20),
+      0 14px 34px rgba(0, 0, 0, 0.28);
+  }
+}
+@keyframes orihimeBorderSheen {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+@keyframes orihimeLineShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 220% 50%; }
+}
+</style>
+<script id="v24-orihime-style">
+(function(){
+  if (window.__gachiV24OrihimeStyleLoaded) return;
+  window.__gachiV24OrihimeStyleLoaded = true;
+
+  const BUILD_V24 = 'BUILD v2.4 ORIHIME STYLE SHINE';
+  const ORIHIME_ID = 'orihime-inoue-school-temptations';
+
+  function ensureBuildBadgeV24() {
+    let badge = document.getElementById('buildBadgeV24');
+    if (!badge) {
+      badge = document.createElement('div');
+      badge.id = 'buildBadgeV24';
+      badge.className = 'chip';
+      badge.style.position = 'fixed';
+      badge.style.left = '12px';
+      badge.style.top = '12px';
+      badge.style.zIndex = '1202';
+      badge.style.backdropFilter = 'blur(12px)';
+      badge.style.background = 'rgba(10,10,18,.78)';
+      badge.style.border = '1px solid rgba(255,255,255,.14)';
+      badge.style.boxShadow = '0 12px 24px rgba(0,0,0,.32)';
+      badge.style.pointerEvents = 'none';
+      document.body.appendChild(badge);
+    }
+    badge.textContent = BUILD_V24;
+  }
+
+  function ensureOrihimeCardV24() {
+    const card = (typeof window.getCard === 'function' ? window.getCard(ORIHIME_ID) : null) || (Array.isArray(window.baseCards) ? window.baseCards.find(c => c && c.id === ORIHIME_ID) : null) || (typeof baseCards !== 'undefined' ? baseCards.find(c => c && c.id === ORIHIME_ID) : null);
+    if (!card) return null;
+    card.border = 'orihime-royal';
+    card.line = 'Школьные соблазны';
+    return card;
+  }
+
+  const prevGetBorderClass = window.getBorderClass;
+  window.getBorderClass = window.getBorderClass || function(){ return ''; };
+  window.getBorderClass = function(card) {
+    if (card && (card.id === ORIHIME_ID || card.border === 'orihime-royal')) return 'orihime-royal-border';
+    return typeof prevGetBorderClass === 'function' ? prevGetBorderClass(card) : '';
+  };
+  try { getBorderClass = window.getBorderClass; } catch (e) {}
+
+  const prevGetLineClass = window.getLineClass;
+  window.getLineClass = window.getLineClass || function(){ return ''; };
+  window.getLineClass = function(card) {
+    if (card && (card.id === ORIHIME_ID || card.line === 'Школьные соблазны')) return 'line-animated-orihime';
+    return typeof prevGetLineClass === 'function' ? prevGetLineClass(card) : '';
+  };
+  try { getLineClass = window.getLineClass; } catch (e) {}
+
+  const prevRenderAll = window.renderAll;
+  if (typeof prevRenderAll === 'function') {
+    window.renderAll = function() {
+      ensureOrihimeCardV24();
+      const result = prevRenderAll.apply(this, arguments);
+      ensureBuildBadgeV24();
+      return result;
+    };
+  }
+
+  ensureOrihimeCardV24();
+  ensureBuildBadgeV24();
+  if (typeof window.renderAll === 'function') window.renderAll();
+})();
+</script>
+
+
+<script id="v25-orihime-heal-fix">
+(function(){
+  if (window.__gachiV25OrihimeHealFixLoaded) return;
+  window.__gachiV25OrihimeHealFixLoaded = true;
+
+  const BUILD_V25 = "BUILD v2.5 ORIHIME HEAL FIX";
+  const ORIHIME_ID = "orihime-inoue-school-temptations";
+
+  function badgeV25() {
+    let b = document.getElementById("buildBadgeV25");
+    if (!b) {
+      b = document.createElement("div");
+      b.id = "buildBadgeV25";
+      b.className = "chip";
+      b.style.position = "fixed";
+      b.style.right = "12px";
+      b.style.top = "12px";
+      b.style.zIndex = "1203";
+      b.style.background = "rgba(10,10,18,.82)";
+      b.style.border = "1px solid rgba(255,255,255,.16)";
+      b.style.backdropFilter = "blur(12px)";
+      b.style.boxShadow = "0 12px 24px rgba(0,0,0,.32)";
+      b.style.pointerEvents = "none";
+      document.body.appendChild(b);
+    }
+    b.textContent = BUILD_V25;
+  }
+
+  function isOrihime(unit) {
+    return !!unit && unit.cardId === ORIHIME_ID;
+  }
+
+  function rnd(v) {
+    return Math.round(Number(v) || 0);
+  }
+
+  function clamp(v, min, max) {
+    return Math.max(min, Math.min(max, v));
+  }
+
+  function ensureOrihimeCard() {
+    let card = null;
+    try {
+      card = baseCards.find(c => c && c.id === ORIHIME_ID);
+    } catch (e) {}
+    if (!card && typeof window.getCard === "function") {
+      try { card = window.getCard(ORIHIME_ID); } catch (e) {}
+    }
+    if (!card) return null;
+
+    card.name = "Орихиме Иноуэ";
+    card.rarity = "ssr";
+    card.role = "support";
+    card.subRole = "healer";
+    card.series = "Орихиме Иноуэ";
+    card.line = "Школьные соблазны";
+    card.border = "orihime-royal";
+    card.atkStat = 62;
+    card.hpStat = 240;
+    card.defStat = 48;
+    card.normalAttackName = "Базовая атака";
+    card.skillName = "Смущённое Исцеление";
+    card.skillDamage = 0;
+    card.skillEffectText = "Восстанавливает 42% здоровья союзнику с самым низким HP и повышает защиту всей команды на 25% на 2 хода.";
+    card.ultimateName = "Защитные Объятия";
+    card.ultimateDamage = 0;
+    card.ultimateEffect = "Восстанавливает 55% здоровья всем союзникам и накладывает щит, поглощающий урон в размере 30% от максимального здоровья на 2 хода.";
+    return card;
+  }
+
+  function heal(unit, value) {
+    if (!unit || !unit.alive) return 0;
+
+    const before = Number(unit.hp || 0);
+    const maxHp = Math.max(1, Number(unit.maxHp || before || 1));
+    const amount = Math.max(0, rnd(value));
+
+    unit.hp = Math.min(maxHp, before + amount);
+    return unit.hp - before;
+  }
+
+  function addUlt(unit, value) {
+    if (!unit) return;
+    unit.ult = clamp(Number(unit.ult || 0) + value, 0, 100);
+  }
+
+  function getDef(unit) {
+    return Number(unit.baseDef || unit.def || 0);
+  }
+
+  function addDefBuff(unit) {
+    if (!unit) return 0;
+
+    if (unit.orihimeDefBonus) {
+      unit.baseDef = Math.max(0, getDef(unit) - Number(unit.orihimeDefBonus || 0));
+      unit.def = unit.baseDef;
+      unit.orihimeDefBonus = 0;
+    }
+
+    const bonus = Math.max(1, rnd(getDef(unit) * 0.25));
+    unit.baseDef = getDef(unit) + bonus;
+    unit.def = unit.baseDef;
+    unit.orihimeDefBonus = bonus;
+    unit.orihimeDefTurns = 2;
+    return bonus;
+  }
+
+  function addShield(unit) {
+    if (!unit) return 0;
+    const shield = Math.max(1, rnd(Number(unit.maxHp || 1) * 0.30));
+    unit.shield = Math.max(Number(unit.shield || 0), shield);
+    unit.orihimeShieldAmount = shield;
+    unit.orihimeShieldTurns = 2;
+    return shield;
+  }
+
+  function tickOrihimeBuffs(unit) {
+    if (!unit) return;
+
+    if (unit.orihimeDefTurns > 0) {
+      unit.orihimeDefTurns -= 1;
+      if (unit.orihimeDefTurns <= 0 && unit.orihimeDefBonus) {
+        unit.baseDef = Math.max(0, getDef(unit) - Number(unit.orihimeDefBonus || 0));
+        unit.def = unit.baseDef;
+        unit.orihimeDefBonus = 0;
+      }
+    }
+
+    if (unit.orihimeShieldTurns > 0) {
+      unit.orihimeShieldTurns -= 1;
+      if (unit.orihimeShieldTurns <= 0) {
+        unit.shield = Math.max(0, Number(unit.shield || 0) - Number(unit.orihimeShieldAmount || 0));
+        unit.orihimeShieldAmount = 0;
+      }
+    }
+  }
+
+  const oldTick = window.tickUnitDurations;
+  if (typeof oldTick === "function") {
+    window.tickUnitDurations = function(unit) {
+      oldTick(unit);
+      tickOrihimeBuffs(unit);
+    };
+    try { tickUnitDurations = window.tickUnitDurations; } catch (e) {}
+  }
+
+  function canAct() {
+    return !!(window.state && !window.state.gameOver && window.state.turn === "player" && window.state.player && window.state.player.alive && Number(window.state.player.skipTurns || 0) <= 0);
+  }
+
+  function finishPlayerAction() {
+    if (typeof checkGameOver === "function") checkGameOver();
+    if (window.state.gameOver) {
+      if (typeof window.renderBattle === "function") window.renderBattle();
+      return;
+    }
+
+    window.state.turn = "enemy";
+    if (typeof window.renderBattle === "function") window.renderBattle();
+
+    setTimeout(() => {
+      if (typeof window.enemyTurn === "function") window.enemyTurn();
+    }, 650);
+  }
+
+  function orihimeBasic() {
+    if (!canAct()) return;
+    const actor = window.state.player;
+    const target = window.state.enemy;
+    const atk = typeof window.effectiveAtk === "function" ? window.effectiveAtk(actor) : Number(actor.baseAtk || actor.atk || 0);
+
+    if (typeof window.dealDamage === "function") {
+      window.dealDamage(actor, target, atk, "Базовая атака");
+    } else {
+      target.hp = Math.max(0, Number(target.hp || 0) - atk);
+      if (target.hp <= 0) target.alive = false;
+    }
+
+    addUlt(actor, 25);
+    addUlt(target, 8);
+    finishPlayerAction();
+  }
+
+  function orihimeSkill() {
+    if (!canAct()) return;
+    const actor = window.state.player;
+
+    if (Number(window.state.energy || 0) < 2) {
+      if (typeof logCombat === "function") logCombat("Не хватает энергии для навыка.");
+      if (typeof window.renderBattle === "function") window.renderBattle();
+      return;
+    }
+
+    window.state.energy = Math.max(0, Number(window.state.energy || 0) - 2);
+
+    const wantHeal = rnd(Number(actor.maxHp || 0) * 0.42);
+    const realHeal = heal(actor, wantHeal);
+    const defBonus = addDefBuff(actor);
+
+    if (typeof animateHeal === "function") animateHeal("player");
+    if (typeof logCombat === "function") {
+      logCombat(`Навык «${actor.skillName || "Смущённое Исцеление"}»: лечение ${realHeal}/${wantHeal} HP. Защита +${defBonus} на 2 хода.`);
+    }
+
+    addUlt(actor, 20);
+    addUlt(window.state.enemy, 8);
+    finishPlayerAction();
+  }
+
+  function orihimeUlt() {
+    if (!canAct()) return;
+    const actor = window.state.player;
+
+    if (Number(actor.ult || 0) < 100) {
+      if (typeof logCombat === "function") logCombat("Ульта ещё не заряжена.");
+      if (typeof window.renderBattle === "function") window.renderBattle();
+      return;
+    }
+
+    actor.ult = 0;
+
+    const wantHeal = rnd(Number(actor.maxHp || 0) * 0.55);
+    const realHeal = heal(actor, wantHeal);
+    const shield = addShield(actor);
+
+    if (typeof animateHeal === "function") animateHeal("player");
+    if (typeof logCombat === "function") {
+      logCombat(`Ульта «${actor.ultimateName || "Защитные Объятия"}»: лечение ${realHeal}/${wantHeal} HP. Щит ${shield} на 2 хода.`);
+    }
+
+    finishPlayerAction();
+  }
+
+  function buttonHtml(actor, type) {
+    if (type === "basic") {
+      const atk = typeof window.effectiveAtk === "function" ? window.effectiveAtk(actor) : Number(actor.baseAtk || actor.atk || 0);
+      return `<strong>${actor.basicName || "Базовая атака"}</strong><small>${atk} урона · +25 ULT</small>`;
+    }
+
+    if (type === "skill") {
+      const healAmount = rnd(Number(actor.maxHp || 0) * 0.42);
+      const defBonus = Math.max(1, rnd(getDef(actor) * 0.25));
+      return `<strong>Навык «${actor.skillName || "Смущённое Исцеление"}»</strong><small>Лечение ${healAmount} HP · DEF +${defBonus} · 2 энергии</small>`;
+    }
+
+    const healAmount = rnd(Number(actor.maxHp || 0) * 0.55);
+    const shield = rnd(Number(actor.maxHp || 0) * 0.30);
+    const ready = Number(actor.ult || 0) >= 100;
+    return `<strong>Ульта «${actor.ultimateName || "Защитные Объятия"}»</strong><small>${ready ? `Лечение ${healAmount} HP · щит ${shield}` : `заряд ${actor.ult || 0}/100`}</small>`;
+  }
+
+  function hardBindOrihimeButtons() {
+    if (!window.state || !isOrihime(window.state.player)) return;
+
+    const actor = window.state.player;
+    const specs = [
+      ["basicAttackBtn", "basic", orihimeBasic],
+      ["skillBtn", "skill", orihimeSkill],
+      ["ultimateBtn", "ult", orihimeUlt]
+    ];
+
+    specs.forEach(([id, type, handler]) => {
+      const old = document.getElementById(id);
+      if (!old) return;
+
+      const fresh = old.cloneNode(false);
+      fresh.id = old.id;
+      fresh.className = old.className;
+      fresh.type = old.type || "button";
+      fresh.innerHTML = buttonHtml(actor, type);
+      fresh.disabled =
+        !canAct() ||
+        (type === "skill" && Number(window.state.energy || 0) < 2) ||
+        (type === "ult" && Number(actor.ult || 0) < 100);
+
+      fresh.addEventListener("click", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        handler();
+      }, true);
+
+      old.replaceWith(fresh);
+
+      if (typeof els === "object" && els) {
+        if (id === "basicAttackBtn") els.basicAttackBtn = fresh;
+        if (id === "skillBtn") els.skillBtn = fresh;
+        if (id === "ultimateBtn") els.ultimateBtn = fresh;
+      }
+    });
+  }
+
+  const oldMeta = window.getBattleActionMeta;
+  if (typeof oldMeta === "function") {
+    window.getBattleActionMeta = function(unit) {
+      if (isOrihime(unit)) {
+        const atk = typeof window.effectiveAtk === "function" ? window.effectiveAtk(unit) : Number(unit.baseAtk || unit.atk || 0);
+        const skillHeal = rnd(Number(unit.maxHp || 0) * 0.42);
+        const ultHeal = rnd(Number(unit.maxHp || 0) * 0.55);
+        const shield = rnd(Number(unit.maxHp || 0) * 0.30);
+        const defBonus = Math.max(1, rnd(getDef(unit) * 0.25));
+
+        return {
+          basicTitle: unit.basicName || "Базовая атака",
+          basicDesc: `${atk} урона · +25 ULT`,
+          skillTitle: `Навык «${unit.skillName || "Смущённое Исцеление"}»`,
+          skillDesc: `Лечение ${skillHeal} HP · DEF +${defBonus} на 2 хода · стоит 2 энергии`,
+          ultimateTitle: `Ульта «${unit.ultimateName || "Защитные Объятия"}»`,
+          ultimateDesc: Number(unit.ult || 0) >= 100 ? `Лечение ${ultHeal} HP · щит ${shield} на 2 хода` : `заряд ${unit.ult || 0}/100`
+        };
+      }
+
+      return oldMeta(unit);
+    };
+    try { getBattleActionMeta = window.getBattleActionMeta; } catch (e) {}
+  }
+
+  const oldRenderBattle = window.renderBattle;
+  if (typeof oldRenderBattle === "function") {
+    window.renderBattle = function() {
+      const result = oldRenderBattle.apply(this, arguments);
+      if (window.state && isOrihime(window.state.player)) {
+        setTimeout(hardBindOrihimeButtons, 0);
+      }
+      return result;
+    };
+    try { renderBattle = window.renderBattle; } catch (e) {}
+  }
+
+  const oldRenderAll = window.renderAll;
+  if (typeof oldRenderAll === "function") {
+    window.renderAll = function() {
+      ensureOrihimeCard();
+      const result = oldRenderAll.apply(this, arguments);
+      badgeV25();
+      setTimeout(hardBindOrihimeButtons, 0);
+      return result;
+    };
+    try { renderAll = window.renderAll; } catch (e) {}
+  }
+
+  setInterval(() => {
+    try {
+      ensureOrihimeCard();
+      badgeV25();
+      if (window.state && isOrihime(window.state.player)) hardBindOrihimeButtons();
+    } catch (e) {}
+  }, 600);
+
+  ensureOrihimeCard();
+  badgeV25();
+  if (typeof window.renderAll === "function") window.renderAll();
+})();
+</script>
+
 </body>
 </html>
