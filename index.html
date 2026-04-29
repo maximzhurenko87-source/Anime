@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="ru">
 <head>
+  <meta id="v16-cache-buster-meta" http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Neon Muse: Card Duel</title>
@@ -1926,6 +1929,35 @@ select {
   0% { background-position: 0% 50%; }
   100% { background-position: 240% 50%; }
 }
+</style>
+
+
+<style id="v16-fix-style">
+.dupe-name-v16{display:inline-flex;align-items:center;justify-content:center;min-width:34px;margin-left:8px;padding:3px 8px;border-radius:999px;font-size:.72em;line-height:1;font-weight:950;letter-spacing:.02em;color:#fff;background:linear-gradient(135deg,rgba(255,255,255,.16),color-mix(in srgb,var(--accent) 38%,rgba(255,255,255,.08)));border:1px solid rgba(255,255,255,.2);box-shadow:0 0 18px rgba(255,255,255,.1) inset,0 8px 18px rgba(0,0,0,.18);vertical-align:middle}
+.viewer-header h2 .dupe-name-v16,.combat-name-row h3 .dupe-name-v16{font-size:.48em;transform:translateY(-1px)}
+.gacha-banner-slider-v16{position:relative;width:100%;height:100%;min-height:235px;overflow:hidden}
+.gacha-banner-slide-v16{position:absolute;inset:0;opacity:0;transform:scale(1.04);transition:opacity .65s ease,transform .65s ease;cursor:pointer}
+.gacha-banner-slide-v16.active{opacity:1;transform:scale(1)}
+.gacha-banner-slide-v16 img{width:100%;height:100%;object-fit:cover;object-position:center 16%;display:block}
+.gacha-banner-slide-v16::after{content:"";position:absolute;inset:auto 0 0 0;height:58%;background:linear-gradient(180deg,transparent,rgba(8,4,14,.94))}
+.gacha-banner-meta-v16{position:absolute;left:14px;right:14px;bottom:14px;z-index:2;display:grid;gap:8px}
+.gacha-banner-meta-v16 h4{margin:0;font-size:1.18rem;line-height:1.05}
+.gacha-banner-meta-v16 p{margin:0;color:rgba(255,255,255,.82);font-size:.86rem}
+.gacha-banner-focus-v16{display:inline-flex;align-items:center;width:fit-content;padding:7px 12px;border-radius:999px;font-weight:900;background:rgba(10,6,16,.76);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(9px)}
+.gacha-banner-dots-v16{position:absolute;top:12px;right:12px;z-index:4;display:flex;gap:8px}
+.gacha-banner-dot-v16{width:10px;height:10px;border-radius:999px;border:0;background:rgba(255,255,255,.32);cursor:pointer;transition:width .25s ease,background .25s ease}
+.gacha-banner-dot-v16.active{width:26px;background:linear-gradient(90deg,#72ffc8,#ffd76d)}
+.gacha-banner-v16-tag,.version-fix-v16{display:inline-flex;align-items:center;gap:8px;width:fit-content;padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);color:var(--muted);font-size:.82rem;font-weight:850}
+.mssr-rate-v16{background:linear-gradient(135deg,rgba(75,255,216,.18),rgba(255,215,109,.22))!important;border-color:rgba(255,255,255,.26)!important;font-weight:950!important}
+.dummy-controls-v16{display:grid;gap:10px;margin-top:10px}
+.dummy-controls-v16 label{display:grid;gap:6px;color:var(--muted);font-size:.82rem;font-weight:800}
+.dummy-select-v16,.number-input-v16{min-height:44px;border-radius:16px;border:1px solid var(--line);padding:0 12px;background:rgba(255,255,255,.08);color:var(--text);font:inherit;width:100%}
+.dummy-note-v16{margin:8px 0 0;color:var(--muted);font-size:.82rem;line-height:1.35}
+.cooldown-v16{opacity:.72;border-color:rgba(255,215,109,.38)!important}
+.cooldown-v16 small{color:#ffd76d}
+.viewer-passive-v16{margin-top:10px;font-weight:800;color:var(--accent-2)}
+.gacha-result-grid .compact-card-title h3 .dupe-name-v16,.collection-grid .compact-card-title h3 .dupe-name-v16{font-size:.72em}
+@media (min-width:720px){.dummy-controls-v16{grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style>
 
 </head>
@@ -4441,6 +4473,865 @@ renderAll();
     originalRenderAll();
   };
 
+  renderAll();
+})();
+</script>
+
+
+<style id="v14-blade-gacha-update-style">
+.gacha-banner-slider-v14 { position: relative; width: 100%; height: 100%; isolation: isolate; }
+.gacha-banner-slide-v14 { position: absolute; inset: 0; opacity: 0; transition: opacity .6s ease; }
+.gacha-banner-slide-v14.active { opacity: 1; }
+.gacha-banner-slide-v14 img { width: 100%; height: 100%; object-fit: cover; object-position: center 18%; display: block; }
+.gacha-banner-overlay-v14 { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,4,14,.12), rgba(8,4,14,.82)); }
+.gacha-banner-card-meta-v14 { position: absolute; left: 14px; right: 14px; bottom: 14px; z-index: 2; display: grid; gap: 8px; }
+.gacha-banner-card-meta-v14 .chip { background: rgba(10,6,16,.72); backdrop-filter: blur(8px); }
+.gacha-banner-card-meta-v14 h4 { margin: 0; font-size: 1.12rem; line-height: 1.05; }
+.gacha-banner-card-meta-v14 p { margin: 0; color: rgba(255,255,255,.82); font-size: .85rem; }
+.gacha-banner-dots-v14 { position: absolute; right: 12px; top: 12px; z-index: 3; display: flex; gap: 8px; }
+.gacha-banner-dot-v14 { width: 10px; height: 10px; border-radius: 999px; border: 0; cursor: pointer; background: rgba(255,255,255,.28); box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); }
+.gacha-banner-dot-v14.active { width: 24px; background: linear-gradient(90deg, rgba(92,255,209,.95), rgba(255,215,109,.95)); }
+.gacha-banner-focus-v14 { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 999px; width: fit-content; font-weight: 800; background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.16); backdrop-filter: blur(10px); }
+.gacha-banner-copy-v12 .rate-row .mssr-rate-v14 { background: linear-gradient(135deg, rgba(75,255,216,.18), rgba(255,215,109,.22)); border-color: rgba(255,255,255,.26); font-weight: 900; }
+.action-btn.cooldown-v14 { opacity: .72; filter: saturate(.8); }
+.action-btn.cooldown-v14 small { color: #ffd76d; }
+.viewer-passive-v14 { margin-top: 10px; font-weight: 700; color: var(--accent-2); }
+.version-chip-v14 { display: inline-flex; align-items: center; gap: 8px; margin-top: 6px; padding: 6px 10px; border-radius: 999px; font-size: .8rem; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); }
+</style>
+
+
+<script id="v14-blade-gacha-update">
+(function() {
+  const BLADE_ID = 'blade-hsr-m';
+  const MSSR_RATE = 0.8;
+
+  function turnsWordRu(n) {
+    const value = Math.abs(Number(n)) % 100;
+    const last = value % 10;
+    if (value > 10 && value < 20) return 'ходов';
+    if (last > 1 && last < 5) return 'хода';
+    if (last === 1) return 'ход';
+    return 'ходов';
+  }
+
+  function updateBladeCardData() {
+    const blade = getCard(BLADE_ID);
+    if (!blade) return null;
+    blade.rarity = 'mssr';
+    blade.border = 'emerald-mythic';
+    blade.line = 'HSR_M';
+    blade.atkStat = 90;
+    blade.hpStat = 255;
+    blade.defStat = 50;
+    blade.normalAttackName = 'Базовая атака';
+    blade.skillName = 'Сломанный клинок всё еще режет.';
+    blade.skillDamage = 90;
+    blade.skillEffectText = 'Наносит массовый урон по всем противникам. Наносит 90 урона + 30% от текущего своего здоровья. Перезарядка: 3 хода.';
+    blade.ultimateName = 'Живущий в огне';
+    blade.ultimateDamage = 0;
+    blade.ultimateEffect = 'Повышает своё текущее здоровье на 50% на 3 хода.';
+    blade.text = 'MSSR-карта линейки “HSR_M”. Легендарная золотая карточка с высоким уроном, усиливает свою атаку на 50% от своего базового здоровья. Навык имеет перезарядку 3 хода. Пассивная способность «Бесконечная Ярость» раскрывается на 5-м наложении (дубле): Блейд может возродиться 1 раз за игру после смерти.';
+    blade.passiveName = 'Бесконечная Ярость';
+    blade.passiveText = 'На 5-м наложении (дубле) Блейд получает возможность возродиться 1 раз за игру после смерти.';
+    return blade;
+  }
+
+  const bladeCard = updateBladeCardData();
+
+  rarityNames.mssr = 'MSSR';
+  rarityWeights.length = 0;
+  rarityWeights.push(
+    ['common', 53.7],
+    ['rare', 27],
+    ['epic', 12],
+    ['legendary', 3],
+    ['sr', 2],
+    ['ssr', 1],
+    ['mssr', MSSR_RATE],
+    ['ssrplus', 0.5]
+  );
+
+  if (els.rarityFilter && !els.rarityFilter.querySelector('option[value="mssr"]')) {
+    const option = document.createElement('option');
+    option.value = 'mssr';
+    option.textContent = 'MSSR';
+    const ssrPlusOption = els.rarityFilter.querySelector('option[value="ssrplus"]');
+    if (ssrPlusOption) els.rarityFilter.insertBefore(option, ssrPlusOption);
+    else els.rarityFilter.appendChild(option);
+  }
+
+  const originalBuildFighterFromCardV14 = buildFighterFromCard;
+  window.buildFighterFromCard = buildFighterFromCard = function(card, team) {
+    const fighter = originalBuildFighterFromCardV14(card, team);
+    fighter.baseMaxHp = fighter.baseMaxHp || fighter.maxHp;
+    fighter.reviveAvailable = team === 'player' && card.id === BLADE_ID && getDuplicateLevel(card.id) >= 5;
+    fighter.reviveUsed = fighter.reviveUsed || false;
+    fighter.bladeHpBuffTurns = fighter.bladeHpBuffTurns || 0;
+    fighter.bladeHpBuffAmount = fighter.bladeHpBuffAmount || 0;
+    fighter.skillCooldown = fighter.skillCooldown || 0;
+    fighter.skillCooldownMax = card.id === BLADE_ID ? 3 : (fighter.skillCooldownMax || 0);
+    return fighter;
+  };
+
+  const originalTickUnitDurationsV14 = tickUnitDurations;
+  window.tickUnitDurations = tickUnitDurations = function(unit) {
+    originalTickUnitDurationsV14(unit);
+    if (unit && unit.cardId === BLADE_ID && unit.skillCooldown > 0) {
+      unit.skillCooldown = Math.max(0, unit.skillCooldown - 1);
+    }
+  };
+
+  const originalUseSkillV14 = useSkill;
+  window.useSkill = useSkill = function() {
+    if (!canPlayerAct()) return;
+    const attacker = state.player;
+    const target = state.enemy;
+    if (attacker.cardId === BLADE_ID) {
+      if ((attacker.skillCooldown || 0) > 0) {
+        const cd = attacker.skillCooldown;
+        logCombat(`Навык «${attacker.skillName}» недоступен: перезарядка ${cd} ${turnsWordRu(cd)}.`);
+        renderBattle();
+        return;
+      }
+      if (!spendEnergy(2)) {
+        logCombat('Не хватает энергии для навыка.');
+        renderBattle();
+        return;
+      }
+      const rawDamage = 90 + Math.round(attacker.hp * 0.3);
+      dealDamage(attacker, target, rawDamage, `Навык «${attacker.skillName}»`);
+      attacker.skillCooldown = 3;
+      gainUlt(attacker, 20);
+      gainUlt(target, 8);
+      endPlayerAction();
+      return;
+    }
+    return originalUseSkillV14();
+  };
+
+  const originalGetBattleActionMetaV14 = getBattleActionMeta;
+  window.getBattleActionMeta = getBattleActionMeta = function(unit) {
+    if (unit.cardId === BLADE_ID) {
+      const cd = Number(unit.skillCooldown || 0);
+      return {
+        basicTitle: unit.basicName,
+        basicDesc: '90 урона + 50% от текущего HP · +25 ULT',
+        skillTitle: `Навык «${unit.skillName}»`,
+        skillDesc: cd > 0
+          ? `90 урона + 30% от текущего HP · массовый удар · перезарядка: ${cd} ${turnsWordRu(cd)}`
+          : '90 урона + 30% от текущего HP · массовый удар · стоит 2 энергии · КД: 3 хода',
+        ultimateTitle: `Ульта «${unit.ultimateName}»`,
+        ultimateDesc: 'Повышает текущее здоровье на 50% на 3 хода · нужен 100% ULT'
+      };
+    }
+    return originalGetBattleActionMetaV14(unit);
+  };
+
+  const originalRenderBattleV14 = renderBattle;
+  window.renderBattle = renderBattle = function() {
+    originalRenderBattleV14();
+    const unit = state.player;
+    if (!unit || unit.cardId !== BLADE_ID || !els.skillBtn) return;
+    const cooldown = Number(unit.skillCooldown || 0);
+    els.skillBtn.classList.toggle('cooldown-v14', cooldown > 0);
+    if (cooldown > 0) {
+      els.skillBtn.disabled = true;
+      els.skillBtn.innerHTML = `<strong>Навык «${unit.skillName}»</strong><small>Перезарядка: ${cooldown} ${turnsWordRu(cooldown)} · массовый урон · 2 энергии</small>`;
+    }
+  };
+
+  const originalOpenCardViewerV14 = openCardViewer;
+  window.openCardViewer = openCardViewer = function(card) {
+    originalOpenCardViewerV14(card);
+    if (card.id !== BLADE_ID) return;
+    const dup = getDuplicateLevel(card.id);
+    const passiveState = dup >= 5
+      ? 'Пассивка активна: на 5-м наложении Блейд возрождается 1 раз за игру после смерти.'
+      : 'Пассивка «Бесконечная Ярость» откроется на 5-м наложении (дубле): 1 возрождение за игру.';
+    els.viewerText.textContent = `${card.text} ${passiveState} ${duplicateBonusText(card)}.`;
+    els.viewerSkillDesc.textContent = 'Наносит массовый урон по всем противникам. Наносит 90 урона + 30% от текущего своего здоровья. Перезарядка: 3 хода.';
+    const parent = els.viewerText.parentElement;
+    if (parent) {
+      parent.querySelector('.viewer-passive-v14')?.remove();
+      const note = document.createElement('p');
+      note.className = 'viewer-passive-v14';
+      note.textContent = passiveState;
+      parent.appendChild(note);
+    }
+  };
+
+  function applyBannerPatch() {
+    const banner = document.querySelector('.gacha-banner-v12');
+    if (!banner) return;
+    const eyebrow = banner.querySelector('.gacha-banner-copy-v12 .eyebrow');
+    const title = banner.querySelector('.gacha-banner-copy-v12 h3');
+    const desc = banner.querySelector('.gacha-banner-copy-v12 p:not(.eyebrow)');
+    const rateRow = banner.querySelector('.rate-row');
+    const artWrap = banner.querySelector('.gacha-banner-art-v12');
+    const actions = banner.querySelector('.gacha-banner-actions-v12');
+
+    if (eyebrow) eyebrow.textContent = 'Лимитированный баннер · v1.4';
+    if (title) title.textContent = 'Изумрудное пламя';
+    if (desc) desc.textContent = 'В баннер добавлен MSSR Блейд с шансом 0.8%. Теперь баннер показывает слайдшоу между ключевыми карточками ротации, а все шансы и гаранты отображаются прямо в описании.';
+
+    if (rateRow) {
+      rateRow.innerHTML = `
+        <span class="mssr-rate-v14">MSSR ${MSSR_RATE}%</span>
+        <span>SSR 1%</span>
+        <span>SSR+ 0.5%</span>
+        <span>SSR гарант: <b id="ssrPityText">${save.gachaSinceSSR || 0}</b>/80</span>
+        <span>SSR+ гарант: <b id="ssrPlusPityText">${save.gachaSinceSSRPlus || 0}</b>/160</span>
+      `;
+    }
+
+    if (actions && !actions.querySelector('.version-chip-v14')) {
+      const chip = document.createElement('div');
+      chip.className = 'version-chip-v14';
+      chip.textContent = 'Обновление: Блейд в гаче · баннер-слайдер · КД навыка 3 хода';
+      actions.appendChild(chip);
+    }
+
+    const featuredIds = ['blade-hsr-m', 'yoruichi-wet-shunpo', 'raiden-deep-absorption'];
+    const featuredCards = featuredIds.map(id => getCard(id)).filter(Boolean);
+    if (!artWrap || !featuredCards.length) return;
+
+    if (artWrap.dataset.v14SliderReady !== '1') {
+      artWrap.innerHTML = `
+        <div class="gacha-banner-slider-v14">
+          <div class="gacha-banner-dots-v14"></div>
+          ${featuredCards.map((card, index) => `
+            <article class="gacha-banner-slide-v14 ${index === 0 ? 'active' : ''}" data-slide-index="${index}" data-card-id="${card.id}">
+              <img src="${card.image || ''}" alt="${card.name}">
+              <div class="gacha-banner-overlay-v14"></div>
+              <div class="gacha-banner-card-meta-v14">
+                <span class="gacha-banner-focus-v14">Фокус баннера · ${rarityNames[card.rarity] || card.rarity}</span>
+                <h4>${card.name}</h4>
+                <p>${card.line || 'Лимитированная карта'} · ${card.series || 'Коллекция'}</p>
+                <div class="gacha-banner-badges-v12">
+                  <span class="chip">${rarityNames[card.rarity] || card.rarity} · ${card.name}</span>
+                  <span class="chip">Нажми на арт для карточки</span>
+                  <span class="chip">Слайд ${index + 1}/${featuredCards.length}</span>
+                </div>
+              </div>
+            </article>
+          `).join('')}
+        </div>
+      `;
+      artWrap.dataset.v14SliderReady = '1';
+
+      const slides = Array.from(artWrap.querySelectorAll('.gacha-banner-slide-v14'));
+      const dotsWrap = artWrap.querySelector('.gacha-banner-dots-v14');
+      let current = 0;
+
+      function showSlide(index) {
+        current = (index + slides.length) % slides.length;
+        slides.forEach((slide, idx) => slide.classList.toggle('active', idx === current));
+        if (dotsWrap) {
+          dotsWrap.querySelectorAll('.gacha-banner-dot-v14').forEach((dot, idx) => {
+            dot.classList.toggle('active', idx === current);
+          });
+        }
+      }
+
+      if (dotsWrap) {
+        dotsWrap.innerHTML = featuredCards.map((card, index) => `<button type="button" class="gacha-banner-dot-v14 ${index === 0 ? 'active' : ''}" aria-label="${card.name}" data-dot-index="${index}"></button>`).join('');
+        dotsWrap.querySelectorAll('.gacha-banner-dot-v14').forEach(btn => {
+          btn.addEventListener('click', () => {
+            showSlide(Number(btn.dataset.dotIndex || 0));
+            restart();
+          });
+        });
+      }
+
+      slides.forEach(slide => {
+        slide.addEventListener('click', () => {
+          const card = getCard(slide.dataset.cardId);
+          if (card) openCardViewer(card);
+        });
+      });
+
+      function restart() {
+        if (window.__v14BannerTimer) clearInterval(window.__v14BannerTimer);
+        window.__v14BannerTimer = setInterval(() => showSlide(current + 1), 3200);
+      }
+
+      artWrap.__v14ShowSlide = showSlide;
+      artWrap.__v14Restart = restart;
+      showSlide(0);
+      restart();
+    } else {
+      if (typeof artWrap.__v14ShowSlide === 'function') artWrap.__v14ShowSlide(0);
+      if (typeof artWrap.__v14Restart === 'function') artWrap.__v14Restart();
+    }
+  }
+
+  const originalRenderAllV14 = renderAll;
+  window.renderAll = renderAll = function() {
+    originalRenderAllV14();
+    updateBladeCardData();
+    applyBannerPatch();
+  };
+
+  renderAll();
+})();
+</script>
+
+
+<script id="v16-fix-script">
+(function(){
+  if(window.__gachiV16FixLoaded)return;
+  window.__gachiV16FixLoaded=true;
+
+  const BLADE_ID='blade-hsr-m';
+  const OLD_BLADE_IDS=['blade-living-in-fire','blade-hsr-m'];
+
+  function baseCard(id){return baseCards.find(card=>card&&card.id===id)||null;}
+  function isBlade(cardId){return OLD_BLADE_IDS.includes(cardId);}
+  function findBladeCard(){return baseCards.find(card=>card&&(OLD_BLADE_IDS.includes(card.id)||card.name==='Блейд'))||null;}
+  function ownedCount(cardId){const canonical=isBlade(cardId)?BLADE_ID:cardId;return Math.max(1,Number(save?.owned?.[canonical]||save?.owned?.[cardId]||1));}
+  function dupeLabel(cardId){return`X${Math.min(5,ownedCount(cardId))}`;}
+  function nameWithDupe(card){return`${card.name} <span class="dupe-name-v16">${dupeLabel(card.id)}</span>`;}
+  function cleanLineName(line){return String(line||'').replace(/^[\"'«“”„]+|[\"'»“”„]+$/g,'').trim();}
+  function turnsWordRu(n){const value=Math.abs(Number(n))%100;const last=value%10;if(value>10&&value<20)return'ходов';if(last>1&&last<5)return'хода';if(last===1)return'ход';return'ходов';}
+
+  function normalizeBlade(){
+    const blade=findBladeCard();
+    if(!blade)return null;
+    let copies=0;
+    OLD_BLADE_IDS.forEach(id=>copies=Math.max(copies,Number(save.owned?.[id]||0)));
+    if(copies<=0)copies=1;
+    blade.id=BLADE_ID;
+    blade.name='Блейд';
+    blade.rarity='mssr';
+    blade.border='emerald-mythic';
+    blade.line='HSR_M';
+    blade.series='Blade';
+    blade.role='dps';
+    blade.subRole='fighter';
+    blade.atkStat=90;
+    blade.hpStat=255;
+    blade.defStat=50;
+    blade.normalAttackName='Базовая атака';
+    blade.skillName='Сломанный клинок всё еще режет.';
+    blade.skillDamage=90;
+    blade.skillEffectText='Наносит массовый урон по всем противникам. В бою: 90 урона + 30% от текущего здоровья Блейда. Перезарядка: 3 хода.';
+    blade.ultimateName='Живущий в огне';
+    blade.ultimateDamage=0;
+    blade.ultimateEffect='Повышает своё текущее здоровье на 50% на 3 хода.';
+    blade.passiveName='Бесконечная Ярость';
+    blade.passiveText='При X5 Блейд получает 1 возрождение за бой после смерти.';
+    blade.text='MSSR-карта линейки HSR_M. Легендарная золотая карточка с высоким уроном: базовая атака наносит урон от текущей атаки + 50% от текущего здоровья, навык наносит 90 + 30% от текущего здоровья и имеет перезарядку 3 хода, ульта повышает текущее здоровье на 50% на 3 хода. Пассивная способность «Бесконечная Ярость»: при X5 Блейд возрождается 1 раз за игру после смерти.';
+    save.owned[BLADE_ID]=Math.max(Number(save.owned[BLADE_ID]||0),copies);
+    OLD_BLADE_IDS.forEach(id=>{if(id!==BLADE_ID)delete save.owned[id];});
+    if(save.selectedBattleCardId==='blade-living-in-fire')save.selectedBattleCardId=BLADE_ID;
+    if(save.avatarCardId==='blade-living-in-fire')save.avatarCardId=BLADE_ID;
+    if(save.backgroundCardId==='blade-living-in-fire')save.backgroundCardId=BLADE_ID;
+    rarityNames.mssr='MSSR';
+    return blade;
+  }
+
+  normalizeBlade();
+
+  rarityNames.mssr='MSSR';
+  rarityWeights.length=0;
+  rarityWeights.push(['common',53.7],['rare',27],['epic',12],['legendary',3],['sr',2],['ssr',1],['mssr',0.8],['ssrplus',0.5]);
+
+  window.getCard=getCard=function(id){if(isBlade(id))return normalizeBlade()||baseCards[0];return baseCards.find(card=>card.id===id)||baseCards[0];};
+
+  window.getDuplicateLevel=getDuplicateLevel=function(cardId){
+    const copies=Math.max(1,Number(save.owned?.[isBlade(cardId)?BLADE_ID:cardId]||1));
+    if(isBlade(cardId))return Math.min(5,copies);
+    return Math.min(4,Math.max(0,copies-1));
+  };
+
+  window.getDuplicateBonus=getDuplicateBonus=function(cardId){
+    const copies=Math.max(1,Number(save.owned?.[isBlade(cardId)?BLADE_ID:cardId]||1));
+    const level=isBlade(cardId)?Math.min(5,copies):Math.min(4,Math.max(0,copies-1));
+    if(level>=4)return{hp:.2,def:.2,atk:.2,level};
+    if(level===3)return{hp:.1,def:.1,atk:.1,level};
+    if(level===2)return{hp:.1,def:.1,atk:0,level};
+    if(level===1&&!isBlade(cardId))return{hp:.1,def:0,atk:0,level};
+    return{hp:0,def:0,atk:0,level};
+  };
+
+  window.duplicateBonusText=duplicateBonusText=function(card){
+    const x=Math.min(5,ownedCount(card.id));
+    if(isBlade(card.id)&&x>=5)return'X5: +20% ко всем характеристикам · пассивка активна: 1 возрождение за бой';
+    if(x>=5)return'X5: максимальное наложение';
+    const bonus=getDuplicateBonus(card.id);
+    if(bonus.level<=0||(isBlade(card.id)&&x<=1))return`${dupeLabel(card.id)}: базовая версия`;
+    if(bonus.level>=4)return`${dupeLabel(card.id)}: +20% ко всем характеристикам`;
+    const parts=[];
+    if(bonus.hp)parts.push(`ЗДР +${Math.round(bonus.hp*100)}%`);
+    if(bonus.def)parts.push(`ЗЩТ +${Math.round(bonus.def*100)}%`);
+    if(bonus.atk)parts.push(`АТК +${Math.round(bonus.atk*100)}%`);
+    return`${dupeLabel(card.id)}: ${parts.join(' · ')||'без бонуса'}`;
+  };
+
+  window.rarityStats=rarityStats=function(){
+    const stats={common:0,rare:0,epic:0,legendary:0,sr:0,ssr:0,mssr:0,ssrplus:0};
+    Object.entries(save.owned||{}).forEach(([cardId,count])=>{
+      const card=getCard(cardId);
+      if(!stats.hasOwnProperty(card.rarity))stats[card.rarity]=0;
+      stats[card.rarity]+=Number(count||0);
+    });
+    return stats;
+  };
+
+  const prevGetBorderClass=getBorderClass;
+  window.getBorderClass=getBorderClass=function(card){if(card&&card.border==='emerald-mythic')return'emerald-mythic-border';return prevGetBorderClass(card);};
+  const prevGetLineClass=getLineClass;
+  window.getLineClass=getLineClass=function(card){if(card&&card.line==='HSR_M')return'line-animated-hsrm';return prevGetLineClass(card);};
+
+  window.ownedCards=ownedCards=function(){
+    normalizeBlade();
+    return baseCards.filter(card=>save.owned[card.id]>0).map(card=>({...card,copies:save.owned[card.id]}));
+  };
+
+  window.compactCardTemplate=compactCardTemplate=function(card,showCopies=false){
+    const art=card.image?`<img class="compact-card-image" src="${card.image}" alt="${card.name}">`:`<div class="compact-card-fallback">${card.icon||'✨'}</div>`;
+    const line=cleanLineName(card.line);
+    const lineCard=line?{...card,line}:card;
+    return`${art}<div class="compact-card-title"><h3>${nameWithDupe(card)}</h3><p>${rarityLabel(card)}</p>${line?`<p><span class="${getLineClass(lineCard)}">${line}</span></p>`:''}${showCopies?`<span class="chip duplicate-chip">${duplicateBonusText(card)}</span>`:''}</div>`;
+  };
+
+  function viewerButtons(card){
+    const profileBtn=document.getElementById('viewerSetProfileBtn');
+    const bgBtn=document.getElementById('viewerSetBackgroundBtn');
+    if(profileBtn){
+      profileBtn.textContent=save.avatarCardId===card.id?'Уже на профиле':'Поставить на профиль';
+      profileBtn.onclick=()=>{save.avatarCardId=card.id;save.achievement='Карточка профиля обновлена';saveProgress();renderAll();openCardViewer(getCard(card.id));};
+    }
+    if(bgBtn){
+      bgBtn.textContent=save.backgroundCardId===card.id?'Фон установлен':'Поставить на фон';
+      bgBtn.onclick=()=>{save.backgroundCardId=card.id;save.achievement='Фон игры обновлён';saveProgress();renderAll();openCardViewer(getCard(card.id));};
+    }
+  }
+
+  window.openCardViewer=openCardViewer=function(card){
+    const real=getCard(card.id);
+    const baseStats={hp:real.hpStat||0,atk:real.atkStat||real.attack||0,def:real.defStat||real.shield||0};
+    const boosted=real.atkStat?applyDuplicateBonus(real,baseStats):baseStats;
+    const line=cleanLineName(real.line);
+    const lineCard=line?{...real,line}:real;
+    const passiveState=isBlade(real.id)?(ownedCount(real.id)>=5?'Пассивка активна: X5 даёт 1 возрождение за бой.':'Пассивка откроется на X5: 1 возрождение за бой.'):'';
+
+    els.viewerImage.src=real.image||'';
+    els.viewerImage.alt=`Арт карточки ${real.name}`;
+    els.viewerRarity.innerHTML=rarityLabel(real);
+    els.viewerRarity.className=`eyebrow rarity-${real.rarity}`;
+    els.viewerName.innerHTML=nameWithDupe(real);
+    els.viewerCopies.textContent=dupeLabel(real.id);
+    els.viewerSeries.innerHTML=`Серия: ${real.series||'Без серии'}`;
+    els.viewerLine.innerHTML=line?`Линейка: <span class="${getLineClass(lineCard)}">${line}</span>`:'Линейка: —';
+    els.viewerAtk.textContent=formatBoostedStat(baseStats.atk,boosted.atk);
+    els.viewerHp.textContent=real.hpStat?formatBoostedStat(baseStats.hp,boosted.hp):'—';
+    els.viewerDef.textContent=formatBoostedStat(baseStats.def,boosted.def);
+    els.viewerText.textContent=`${real.text||'Описание отсутствует.'} ${duplicateBonusText(real)}. ${passiveState}`.trim();
+    els.viewerNormalName.textContent=real.normalAttackName||'Обычная атака';
+    els.viewerNormalDesc.textContent=isBlade(real.id)?'Наносит урон от текущей атаки + 50% от текущего здоровья.':(real.atkStat?`Наносит базовый урон. Текущая атака с наложениями: ${boosted.atk}.`:'Базовый боевой эффект карты.');
+    els.viewerSkillName.textContent=`Навык «${real.skillName||'—'}»`;
+    els.viewerSkillDesc.textContent=real.skillName?(real.skillEffectText||`Наносит ${real.skillDamage||0} урона.`):'Особый навык отсутствует.';
+    els.viewerUltName.textContent=`Ульта «${real.ultimateName||'—'}»`;
+    els.viewerUltDesc.textContent=real.ultimateName?`${real.ultimateDamage?`Наносит ${real.ultimateDamage} урона. `:''}${real.ultimateEffect||''}`.trim():'Ультимативное умение отсутствует.';
+
+    const parent=els.viewerText.parentElement;
+    if(parent){
+      parent.querySelector('.viewer-passive-v16')?.remove();
+      if(passiveState){const note=document.createElement('p');note.className='viewer-passive-v16';note.textContent=passiveState;parent.appendChild(note);}
+    }
+    viewerButtons(real);
+    document.querySelector('.card-viewer-media')?.classList.remove('full-art');
+    els.cardViewer.classList.remove('hidden');
+    document.body.style.overflow='hidden';
+  };
+
+  function normalizeFighter(unit){
+    if(!unit)return;
+    const card=unit.cardRef||getCard(unit.cardId);
+    unit.cardRef=card;
+    unit.baseMaxHp=unit.baseMaxHp||unit.maxHp;
+    unit.skillCooldown=Number(unit.skillCooldown||0);
+    unit.skillCooldownMax=isBlade(unit.cardId)?3:0;
+    unit.reviveAvailable=isBlade(unit.cardId)&&ownedCount(unit.cardId)>=5;
+    unit.reviveUsed=Boolean(unit.reviveUsed);
+    unit.bladeHpBuffTurns=Number(unit.bladeHpBuffTurns||0);
+    unit.bladeHpBuffAmount=Number(unit.bladeHpBuffAmount||0);
+  }
+
+  const prevBuildFighter=buildFighterFromCard;
+  window.buildFighterFromCard=buildFighterFromCard=function(card,team){
+    const real=getCard(card.id);
+    const fighter=prevBuildFighter(real,team);
+    fighter.cardId=real.id;
+    fighter.cardRef=real;
+    fighter.baseMaxHp=fighter.maxHp;
+    fighter.skillCooldown=0;
+    fighter.skillCooldownMax=isBlade(real.id)?3:0;
+    fighter.reviveAvailable=isBlade(real.id)&&ownedCount(real.id)>=5;
+    fighter.reviveUsed=false;
+    fighter.bladeHpBuffTurns=0;
+    fighter.bladeHpBuffAmount=0;
+    return fighter;
+  };
+
+  window.dealDamage=dealDamage=function(attacker,target,rawDamage,sourceText){
+    if(!target.alive)return 0;
+    if(!attemptHit(attacker,target,sourceText))return 0;
+    const damage=calculateDamage(Math.max(0,Math.round(rawDamage||0)),target);
+    let remaining=damage;
+    if(target.shield>0){const blocked=Math.min(target.shield,remaining);target.shield-=blocked;remaining-=blocked;}
+    target.hp=Math.max(0,target.hp-remaining);
+    if(remaining>0)animateHit(target.team);
+    if(target.hp<=0)target.alive=false;
+    logCombat(`${attacker.name}: ${sourceText}. Урон: ${damage}.`);
+    if(isBlade(target.cardId)&&!target.alive&&target.reviveAvailable&&!target.reviveUsed){
+      target.reviveUsed=true;
+      target.alive=true;
+      target.hp=Math.max(1,Math.round(target.maxHp*.5));
+      logCombat(`Пассивная способность «Бесконечная Ярость»: ${target.name} возрождается с ${target.hp} HP.`);
+    }
+    return damage;
+  };
+
+  function basicRaw(actor){return isBlade(actor.cardId)?effectiveAtk(actor)+Math.round(actor.hp*.5):effectiveAtk(actor);}
+  function useBasicCore(actor,target){
+    normalizeFighter(actor);normalizeFighter(target);
+    const label=isBlade(actor.cardId)?`${actor.basicName}: текущая АТК + 50% от текущего HP`:actor.basicName;
+    dealDamage(actor,target,basicRaw(actor),label);
+    gainUlt(actor,25);
+    gainUlt(target,actor.team==='player'?8:10);
+  }
+
+  function useSkillCore(actor,target){
+    normalizeFighter(actor);normalizeFighter(target);
+    if((actor.skillCooldown||0)>0){logCombat(`Навык «${actor.skillName}» недоступен: перезарядка ${actor.skillCooldown} ${turnsWordRu(actor.skillCooldown)}.`);return false;}
+
+    if(actor.cardId==='raiden-deep-absorption'){
+      dealDamage(actor,target,actor.skillDamage||55,`Навык «${actor.skillName}»`);
+      applyAtkBuff(actor,.5,2);
+      if(Math.random()<.4){target.skipTurns=Math.max(target.skipTurns,1);logCombat(`Эффект «Задыхающийся»: ${target.name} пропустит следующий ход.`);}
+      gainUlt(actor,20);gainUlt(target,8);return true;
+    }
+    if(actor.cardId==='yoruichi-wet-shunpo'){
+      applyAtkBuff(actor,.6,2);
+      actor.dodgeChance=Math.max(actor.dodgeChance,.4);
+      gainUlt(actor,20);
+      logCombat(`Навык «${actor.skillName}»: ${actor.name} получает +60% АТК на 2 хода и 40% dodge следующей атаки.`);
+      return true;
+    }
+    if(isBlade(actor.cardId)){
+      const raw=(actor.skillDamage||90)+Math.round(actor.hp*.3);
+      dealDamage(actor,target,raw,`Навык «${actor.skillName}»: 90 + 30% от текущего HP`);
+      actor.skillCooldown=3;
+      gainUlt(actor,20);gainUlt(target,8);return true;
+    }
+    dealDamage(actor,target,actor.skillDamage||45,`Навык «${actor.skillName}»`);
+    gainUlt(actor,20);gainUlt(target,8);return true;
+  }
+
+  function useUltimateCore(actor,target){
+    normalizeFighter(actor);normalizeFighter(target);
+    if(actor.ult<100){logCombat('Ульта ещё не заряжена.');return{ok:false,extraTurn:false};}
+    actor.ult=0;
+    if(actor.cardId==='raiden-deep-absorption'){
+      dealDamage(actor,target,actor.ultimateDamage||85,`Ульта «${actor.ultimateName}»`);
+      applyAtkBuff(actor,.7,3);
+      target.exposedTurns=Math.max(target.exposedTurns,3);
+      target.exposedMultiplier=Math.max(target.exposedMultiplier||0,.6);
+      target.defDownTurns=Math.max(target.defDownTurns,3);
+      target.defDownValue=Math.max(target.defDownValue||0,.4);
+      if(Math.random()<.5){target.skipTurns=Math.max(target.skipTurns,1);logCombat(`Ульта «${actor.ultimateName}»: ${target.name} станен на 1 ход.`);}
+      logCombat(`Ульта «${actor.ultimateName}»: цель получает +60% входящего урона и -40% DEF на 3 хода, ${actor.name} получает +70% АТК.`);
+      return{ok:true,extraTurn:false};
+    }
+    if(actor.cardId==='yoruichi-wet-shunpo'){
+      const raw=actor.ultimateDamage||Math.round(effectiveAtk(actor)*1.15);
+      dealDamage(actor,target,raw,`Ульта «${actor.ultimateName}»`);
+      applyAtkBuff(actor,.6,3);
+      actor.hasteTurns=Math.max(actor.hasteTurns,3);
+      target.exposedTurns=Math.max(target.exposedTurns,2);
+      target.exposedMultiplier=Math.max(target.exposedMultiplier||0,.25);
+      target.blindTurns=Math.max(target.blindTurns,2);
+      logCombat(`Ульта «${actor.ultimateName}»: AoE-удар, +АТК/+скорость на 3 хода, враг получает уязвимость и «Ослепление Солнцем» на 2 хода.`);
+      return{ok:true,extraTurn:false};
+    }
+    if(isBlade(actor.cardId)){
+      const add=Math.max(1,Math.round(actor.hp*.5));
+      if(actor.bladeHpBuffAmount<=0)actor.maxHp+=add;
+      actor.hp=Math.min(actor.maxHp,actor.hp+add);
+      actor.bladeHpBuffAmount=add;
+      actor.bladeHpBuffTurns=3;
+      animateHeal(actor.team);
+      logCombat(`Ульта «${actor.ultimateName}»: ${actor.name} повышает текущее здоровье на 50% на 3 хода.`);
+      return{ok:true,extraTurn:false};
+    }
+    dealDamage(actor,target,actor.ultimateDamage||65,`Ульта «${actor.ultimateName}»`);
+    target.skipTurns=Math.max(target.skipTurns,1);
+    logCombat(`Ульта «${actor.ultimateName}»: цель пропустит 1 ход, атакующая сторона получает дополнительный ход.`);
+    return{ok:true,extraTurn:true};
+  }
+
+  const prevTick=tickUnitDurations;
+  window.tickUnitDurations=tickUnitDurations=function(unit){
+    prevTick(unit);
+    if(!unit)return;
+    if(isBlade(unit.cardId)&&unit.skillCooldown>0)unit.skillCooldown=Math.max(0,unit.skillCooldown-1);
+    if(unit.bladeHpBuffTurns>0){
+      unit.bladeHpBuffTurns-=1;
+      if(unit.bladeHpBuffTurns<=0&&unit.bladeHpBuffAmount>0){
+        unit.maxHp=Math.max(unit.baseMaxHp||1,unit.maxHp-unit.bladeHpBuffAmount);
+        unit.hp=Math.min(unit.hp,unit.maxHp);
+        unit.bladeHpBuffAmount=0;
+      }
+    }
+  };
+
+  window.canPlayerAct=canPlayerAct=function(){return state&&!state.gameOver&&state.turn==='player'&&state.player.alive&&state.player.skipTurns<=0;};
+
+  function finishPlayerAction(extraTurn=false){
+    checkGameOver();
+    if(state.gameOver){renderBattle();return;}
+    if(extraTurn){state.turn='player';state.energy=Math.min(MAX_TEAM_ENERGY,state.energy+1);renderBattle();return;}
+    state.turn='enemy';renderBattle();setTimeout(enemyTurn,650);
+  }
+
+  function finishEnemyAction(extraTurn=false){
+    checkGameOver();
+    if(state.gameOver){renderBattle();return;}
+    if(extraTurn){renderBattle();setTimeout(enemyTurn,650);return;}
+    state.turn='player';
+    nextRound();
+    if(state.player.skipTurns>0){
+      state.player.skipTurns-=1;
+      logCombat(`${state.player.name} пропускает ход.`);
+      state.turn='enemy';
+      renderBattle();
+      setTimeout(enemyTurn,650);
+      return;
+    }
+    renderBattle();
+  }
+
+  window.useBasicAttack=useBasicAttack=function(){if(!canPlayerAct())return;useBasicCore(state.player,state.enemy);finishPlayerAction(false);};
+  window.useSkill=useSkill=function(){
+    if(!canPlayerAct())return;
+    if(state.player.skillCooldown>0){logCombat(`Навык «${state.player.skillName}» недоступен: перезарядка ${state.player.skillCooldown} ${turnsWordRu(state.player.skillCooldown)}.`);renderBattle();return;}
+    if(!spendEnergy(2)){logCombat('Не хватает энергии для навыка.');renderBattle();return;}
+    if(useSkillCore(state.player,state.enemy))finishPlayerAction(false);
+  };
+  window.useUltimate=useUltimate=function(){if(!canPlayerAct())return;const result=useUltimateCore(state.player,state.enemy);if(result.ok)finishPlayerAction(result.extraTurn);else renderBattle();};
+
+  window.enemyTurn=enemyTurn=function(){
+    if(state.gameOver||!state.enemy.alive)return;
+    normalizeFighter(state.enemy);normalizeFighter(state.player);
+    if(state.enemy.skipTurns>0){
+      state.enemy.skipTurns-=1;
+      logCombat(`${state.enemy.name} пропускает ход.`);
+      state.turn='player';
+      nextRound();
+      renderBattle();
+      return;
+    }
+    let extra=false;
+    if(state.enemy.ult>=100){
+      const result=useUltimateCore(state.enemy,state.player);
+      extra=result.extraTurn;
+    }else if(state.enemy.skillName&&state.enemy.skillCooldown<=0&&state.round>=2&&Math.random()<.7){
+      useSkillCore(state.enemy,state.player);
+    }else{
+      useBasicCore(state.enemy,state.player);
+    }
+    finishEnemyAction(extra);
+  };
+
+  const prevGetBattleActionMeta=getBattleActionMeta;
+  window.getBattleActionMeta=getBattleActionMeta=function(unit){
+    normalizeFighter(unit);
+    if(isBlade(unit.cardId)){
+      const cd=Number(unit.skillCooldown||0);
+      return{basicTitle:unit.basicName,basicDesc:`${effectiveAtk(unit)} + 50% текущего HP · +25 ULT`,skillTitle:`Навык «${unit.skillName}»`,skillDesc:cd>0?`Перезарядка: ${cd} ${turnsWordRu(cd)} · 90 + 30% текущего HP`:'90 + 30% текущего HP · стоит 2 энергии · КД 3 хода',ultimateTitle:`Ульта «${unit.ultimateName}»`,ultimateDesc:'Текущее HP +50% на 3 хода · нужен 100% ULT'};
+    }
+    return prevGetBattleActionMeta(unit);
+  };
+
+  const prevRenderCombatant=renderCombatant;
+  window.renderCombatant=renderCombatant=function(side,unit){
+    normalizeFighter(unit);
+    prevRenderCombatant(side,unit);
+    const card=unit.cardRef||getCard(unit.cardId);
+    const nameEl=side==='player'?els.playerCombatName:els.enemyCombatName;
+    if(card&&nameEl&&save.owned?.[card.id])nameEl.innerHTML=nameWithDupe(card);
+    const badge=side==='player'?els.playerStatusBadge:els.enemyStatusBadge;
+    const extras=[];
+    if(unit.skillCooldown>0)extras.push(`КД навыка ${unit.skillCooldown}`);
+    if(isBlade(unit.cardId)&&unit.reviveAvailable&&!unit.reviveUsed)extras.push('Возрождение готово');
+    if(extras.length&&badge){const old=badge.textContent?`${badge.textContent} · `:'';badge.textContent=`${old}${extras.join(' · ')}`;badge.classList.remove('hidden');}
+  };
+
+  const prevRenderBattle=renderBattle;
+  window.renderBattle=renderBattle=function(){
+    if(state?.player)normalizeFighter(state.player);
+    if(state?.enemy)normalizeFighter(state.enemy);
+    prevRenderBattle();
+    const cd=Number(state?.player?.skillCooldown||0);
+    if(els.skillBtn){
+      els.skillBtn.classList.toggle('cooldown-v16',cd>0);
+      if(cd>0){els.skillBtn.disabled=true;els.skillBtn.innerHTML=`<strong>Навык «${state.player.skillName}»</strong><small>Перезарядка: ${cd} ${turnsWordRu(cd)}</small>`;}
+    }
+  };
+
+  function createBaseDummy(hp,atk,def){
+    return{id:'enemy-custom-dummy',team:'enemy',cardId:'enemy-custom-dummy',name:'Боевая кукла',icon:'🎯',image:'',role:'tank',subRole:'training',maxHp:hp,hp,atk,def,shield:0,ult:0,skipTurns:0,alive:true,basicName:'Тестовый удар',skillName:'Тестовый навык',ultimateName:'Тестовая ульта',skillDamage:Math.round(atk*.8),ultimateDamage:Math.round(atk*1.3),atkBuffValue:0,atkBuffTurns:0,dodgeChance:0,exposedTurns:0,exposedMultiplier:0,defDownTurns:0,defDownValue:0,blindTurns:0,hasteTurns:0,baseMaxHp:hp,skillCooldown:0,skillCooldownMax:0,reviveAvailable:false,reviveUsed:false};
+  }
+
+  function readNumber(id,fallback,min,max){const value=Number(document.getElementById(id)?.value??fallback);return Math.max(min,Math.min(max,Number.isFinite(value)?value:fallback));}
+
+  function makeConfiguredDummy(){
+    const cardId=document.getElementById('dummyCardSelectV16')?.value||'__dummy__';
+    const hp=readNumber('dummyHpInput',5000,1,999999);
+    const atk=readNumber('dummyAtkInputV16',30,0,99999);
+    const def=readNumber('dummyDefInputV16',0,0,99999);
+    if(cardId==='__dummy__')return createBaseDummy(hp,atk,def);
+    const card=getCard(cardId);
+    const enemy=buildFighterFromCard(card,'enemy');
+    enemy.maxHp=hp;enemy.hp=hp;enemy.atk=atk;enemy.def=def;enemy.baseMaxHp=hp;enemy.cardRef=card;enemy.cardId=card.id;
+    normalizeFighter(enemy);
+    return enemy;
+  }
+
+  window.startDummyBattle=startDummyBattle=function(){
+    const chosenCard=getSelectedBattleCard();
+    state={round:1,turn:'player',energy:START_TEAM_ENERGY,gameOver:false,extraTurnReady:false,player:buildFighterFromCard(chosenCard,'player'),enemy:makeConfiguredDummy()};
+    els.resultModal.classList.add('hidden');
+    renderBattlePrep();
+    logCombat(`Боевая кукла активирована: ${state.enemy.name}. HP ${state.enemy.maxHp}, ATK ${state.enemy.atk}, DEF ${state.enemy.def}.`);
+    renderBattle();
+  };
+
+  function enhanceDummyPanel(){
+    const controls=document.querySelector('.dummy-controls');
+    if(!controls||controls.dataset.v16Ready==='1')return;
+    controls.dataset.v16Ready='1';
+    const cards=baseCards.filter(card=>card&&(card.hpStat||card.skillName||card.id===BLADE_ID));
+    const options=['<option value="__dummy__">Обычная боевая кукла</option>'].concat(cards.map(card=>`<option value="${card.id}">${card.name} · ${rarityNames[card.rarity]||card.rarity}</option>`)).join('');
+    const box=document.createElement('div');
+    box.className='dummy-controls-v16';
+    box.innerHTML=`<label>Карта-кукла<select id="dummyCardSelectV16" class="dummy-select-v16">${options}</select></label><label>Урон / ATK куклы<input id="dummyAtkInputV16" class="number-input-v16" type="number" min="0" max="99999" value="30"></label><label>Защита / DEF куклы<input id="dummyDefInputV16" class="number-input-v16" type="number" min="0" max="99999" value="0"></label>`;
+    const hpLabel=controls.querySelector('label');
+    if(hpLabel)hpLabel.after(box);else controls.prepend(box);
+    const note=document.createElement('p');
+    note.className='dummy-note-v16';
+    note.textContent='Можно выбрать любую карту как куклу: её базовая атака, навык, ульта, баффы, дебаффы, dodge, перезарядка и пассивки работают по тем же правилам, что и у игрока.';
+    controls.appendChild(note);
+    if(els.startDummyBtn){
+      const clone=els.startDummyBtn.cloneNode(true);
+      clone.textContent='Бой с выбранной куклой';
+      els.startDummyBtn.replaceWith(clone);
+      els.startDummyBtn=clone;
+      clone.addEventListener('click',startDummyBattle);
+    }
+  }
+
+  window.updatePityAfterRoll=updatePityAfterRoll=function(rarity){
+    if(rarity==='ssrplus'){save.gachaSinceSSR=0;save.gachaSinceSSRPlus=0;}
+    else if(rarity==='ssr'||rarity==='mssr'){save.gachaSinceSSR=0;save.gachaSinceSSRPlus+=1;}
+    else{save.gachaSinceSSR+=1;save.gachaSinceSSRPlus+=1;}
+  };
+
+  window.pickCardByRarity=pickCardByRarity=function(rarity){
+    let pool=baseCards.filter(card=>card.rarity===rarity);
+    if(rarity==='mssr'){const blade=normalizeBlade();pool=blade?[blade]:pool;}
+    if(!pool.length)pool=baseCards.filter(card=>card.rarity==='rare');
+    return pool[Math.floor(Math.random()*pool.length)];
+  };
+
+  window.performSinglePull=performSinglePull=function(){
+    const rarity=rollRarity();
+    const card=pickCardByRarity(rarity);
+    save.owned[card.id]=(save.owned[card.id]||0)+1;
+    updatePityAfterRoll(rarity);
+    save.achievement=rarity==='mssr'?'MSSR-призыв':rarity==='ssrplus'?'SSR+-призыв':rarity==='ssr'?'SSR-призыв':'Призыв карты';
+    return{...card,copies:save.owned[card.id]};
+  };
+
+  window.renderGachaResults=renderGachaResults=function(cards){
+    const order=['common','rare','epic','legendary','sr','ssr','mssr','ssrplus'];
+    const best=cards.reduce((winner,card)=>order.indexOf(card.rarity)>order.indexOf(winner.rarity)?card:winner,cards[0]);
+    els.gachaResult.className=`gacha-result panel ${getBorderClass(best)}`.trim();
+    els.gachaResult.innerHTML=`<div class="gacha-result-v12"><div class="gacha-result-header"><div><p class="eyebrow">Все открытые карты</p><h3>${cards.length===10?'Крутка x10':'Крутка x1'}</h3></div><span class="chip">Лучшее: ${rarityNames[best.rarity]||best.rarity}</span></div><div class="gacha-result-grid">${cards.map((card,index)=>`<article data-card-id="${card.id}" class="collection-card compact-collection-card gacha-drop-card rarity-${card.rarity} ${getBorderClass(card)}" style="animation-delay:${index*70}ms">${compactCardTemplate(card,true)}</article>`).join('')}</div></div>`;
+    els.gachaResult.querySelectorAll('[data-card-id]').forEach(node=>node.addEventListener('click',()=>openCardViewer(getCard(node.dataset.cardId))));
+    if(els.skipGachaBtn)els.skipGachaBtn.classList.add('hidden');
+  };
+
+  function patchRarityFilter(){
+    if(!els.rarityFilter||els.rarityFilter.querySelector('option[value="mssr"]'))return;
+    const option=document.createElement('option');option.value='mssr';option.textContent='MSSR';
+    const before=els.rarityFilter.querySelector('option[value="ssrplus"]');
+    if(before)els.rarityFilter.insertBefore(option,before);else els.rarityFilter.appendChild(option);
+  }
+
+  function buildBannerSlider(){
+    const banner=document.querySelector('.gacha-banner-v12');
+    if(!banner)return;
+    const title=banner.querySelector('.gacha-banner-copy-v12 h3');
+    const eyebrow=banner.querySelector('.gacha-banner-copy-v12 .eyebrow');
+    const desc=banner.querySelector('.gacha-banner-copy-v12 p:not(.eyebrow)');
+    const rateRow=banner.querySelector('.rate-row');
+    const actions=banner.querySelector('.gacha-banner-actions-v12');
+    const artWrap=banner.querySelector('.gacha-banner-art-v12');
+    if(eyebrow)eyebrow.textContent='Лимитированный баннер · фикс v1.6';
+    if(title)title.textContent='Изумрудное пламя';
+    if(desc)desc.innerHTML='Фокус баннера: <b>Блейд MSSR</b>. Баннер теперь реально переключает карточки слайдшоу, а Блейд выпадает с шансом <b>0.8%</b>.';
+    if(rateRow)rateRow.innerHTML=`<span class="mssr-rate-v16">MSSR Блейд 0.8%</span><span>SSR 1%</span><span>SSR+ 0.5%</span><span>SSR гарант: <b id="ssrPityText">${save.gachaSinceSSR||0}</b>/80</span><span>SSR+ гарант: <b id="ssrPlusPityText">${save.gachaSinceSSRPlus||0}</b>/160</span>`;
+    if(actions&&!actions.querySelector('.version-fix-v16')){const tag=document.createElement('span');tag.className='version-fix-v16';tag.textContent='Фикс: X возле имени · живой баннер · кукла из любой карты';actions.appendChild(tag);}
+    const featuredIds=[BLADE_ID,'yoruichi-wet-shunpo','raiden-deep-absorption','nell-tu-home-passion'];
+    const featured=featuredIds.map(id=>getCard(id)).filter(Boolean);
+    if(!artWrap||!featured.length)return;
+    const signature=featured.map(card=>card.id).join('|');
+    if(artWrap.dataset.v16Slider===signature)return;
+    artWrap.dataset.v16Slider=signature;
+    artWrap.innerHTML=`<div class="gacha-banner-slider-v16"><div class="gacha-banner-dots-v16"></div>${featured.map((card,index)=>`<article class="gacha-banner-slide-v16 ${index===0?'active':''}" data-card-id="${card.id}" data-slide-index="${index}"><img src="${card.image||''}" alt="${card.name}"><div class="gacha-banner-meta-v16"><span class="gacha-banner-focus-v16">Фокус · ${rarityNames[card.rarity]||card.rarity}</span><h4>${nameWithDupe(card)}</h4><p>${cleanLineName(card.line)||'Лимитированная карта'} · ${card.series||'Коллекция'}</p></div></article>`).join('')}</div>`;
+    const slides=Array.from(artWrap.querySelectorAll('.gacha-banner-slide-v16'));
+    const dotsWrap=artWrap.querySelector('.gacha-banner-dots-v16');
+    let current=0;
+    if(window.__gachiV16BannerTimer)clearInterval(window.__gachiV16BannerTimer);
+    function show(index){current=(index+slides.length)%slides.length;slides.forEach((slide,idx)=>slide.classList.toggle('active',idx===current));dotsWrap?.querySelectorAll('.gacha-banner-dot-v16').forEach((dot,idx)=>dot.classList.toggle('active',idx===current));}
+    if(dotsWrap){
+      dotsWrap.innerHTML=slides.map((slide,index)=>`<button class="gacha-banner-dot-v16 ${index===0?'active':''}" type="button" data-index="${index}" aria-label="Слайд ${index+1}"></button>`).join('');
+      dotsWrap.querySelectorAll('.gacha-banner-dot-v16').forEach(dot=>dot.addEventListener('click',()=>show(Number(dot.dataset.index||0))));
+    }
+    slides.forEach(slide=>slide.addEventListener('click',()=>openCardViewer(getCard(slide.dataset.cardId))));
+    window.__gachiV16BannerTimer=setInterval(()=>show(current+1),2600);
+    show(0);
+  }
+
+  const prevRenderProfileSummary=renderProfileSummary;
+  window.renderProfileSummary=renderProfileSummary=function(){
+    prevRenderProfileSummary();
+    const stats=rarityStats();
+    if(els.profileRarityStats)els.profileRarityStats.textContent=`Common ${stats.common} · Rare ${stats.rare} · Epic ${stats.epic} · Legendary ${stats.legendary} · SR ${stats.sr} · SSR ${stats.ssr} · MSSR ${stats.mssr} · SSR+ ${stats.ssrplus}`;
+    if(els.homeRarityLine)els.homeRarityLine.innerHTML=`<span class="rarity-pill">C ${stats.common}</span><span class="rarity-pill">R ${stats.rare}</span><span class="rarity-pill">E ${stats.epic}</span><span class="rarity-pill">L ${stats.legendary}</span><span class="rarity-pill">SR ${stats.sr}</span><span class="rarity-pill">SSR ${stats.ssr}</span><span class="rarity-pill">MSSR ${stats.mssr}</span><span class="rarity-pill">SSR+ ${stats.ssrplus}</span>`;
+  };
+
+  const prevRenderBattlePrep=renderBattlePrep;
+  window.renderBattlePrep=renderBattlePrep=function(){
+    prevRenderBattlePrep();
+    document.querySelectorAll('.duel-choice h4').forEach(h4=>{const plain=h4.textContent.replace(/X[1-5]$/,'').trim();const card=baseCards.find(c=>c.name===plain);if(card)h4.innerHTML=nameWithDupe(card);});
+  };
+
+  const prevRenderAll=renderAll;
+  window.renderAll=renderAll=function(){
+    normalizeBlade();
+    patchRarityFilter();
+    prevRenderAll();
+    enhanceDummyPanel();
+    buildBannerSlider();
+  };
+
+  normalizeBlade();
+  patchRarityFilter();
+  saveProgress();
   renderAll();
 })();
 </script>
