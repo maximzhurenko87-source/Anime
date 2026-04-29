@@ -1523,6 +1523,33 @@ select {
   100% { background-position: 0% 50%; }
 }
 
+
+.gacha-actions { display: grid; gap: 10px; }
+.pity-panel { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.pity-panel span { border-radius: 999px; padding: 7px 10px; background: rgba(255,255,255,0.09); border: 1px solid var(--line); color: var(--muted); font-size: 0.8rem; font-weight: 800; }
+.gacha-result-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.gacha-result-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
+.gacha-drop-card { min-height: 224px; opacity: 0; transform: translateY(16px) scale(0.96); animation: gachaReveal 520ms ease forwards; }
+.gacha-drop-card.skipped { opacity: 1 !important; transform: none !important; animation: none !important; }
+.gacha-drop-card .compact-card-image, .gacha-drop-card .compact-card-fallback { height: 132px; }
+.gacha-drop-card.rarity-ssr, .gacha-drop-card.rarity-ssrplus { animation-name: gachaRevealRare; }
+@keyframes gachaReveal { 0% { opacity: 0; transform: translateY(16px) scale(0.96); filter: brightness(0.65); } 70% { opacity: 1; transform: translateY(-2px) scale(1.01); filter: brightness(1.15); } 100% { opacity: 1; transform: translateY(0) scale(1); filter: brightness(1); } }
+@keyframes gachaRevealRare { 0% { opacity: 0; transform: translateY(22px) scale(0.9); filter: brightness(0.5); } 45% { opacity: 1; transform: translateY(-8px) scale(1.04); filter: brightness(1.55); } 100% { opacity: 1; transform: translateY(0) scale(1); filter: brightness(1); } }
+.compact-collection-card { display: grid; gap: 10px; min-height: 248px; padding: 10px; text-align: left; }
+.compact-card-image { width: 100%; height: 178px; border-radius: 18px; object-fit: cover; object-position: center 22%; border: 1px solid var(--line); background: linear-gradient(135deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04)), repeating-linear-gradient(135deg, rgba(255,255,255,0.08) 0 2px, transparent 2px 8px); }
+.compact-card-fallback { display: grid; place-items: center; width: 100%; height: 178px; border-radius: 18px; border: 1px solid var(--line); font-size: 3rem; background: linear-gradient(135deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04)), repeating-linear-gradient(135deg, rgba(255,255,255,0.08) 0 2px, transparent 2px 8px); }
+.compact-card-title h3 { margin: 0; font-size: 0.98rem; line-height: 1.12; }
+.compact-card-title p { margin: 5px 0 0; color: var(--muted); font-size: 0.78rem; }
+.dummy-panel { display: grid; gap: 14px; margin: 14px 0; }
+.dummy-panel h3 { margin: 0 0 6px; }
+.dummy-panel p { color: var(--muted); line-height: 1.42; }
+.dummy-controls { display: grid; gap: 10px; }
+.dummy-controls label { display: grid; gap: 6px; color: var(--muted); font-size: 0.82rem; font-weight: 800; }
+.number-input { min-height: 44px; border-radius: 16px; border: 1px solid var(--line); padding: 0 12px; background: rgba(255,255,255,0.08); color: var(--text); font: inherit; }
+.developer-panel { border-color: color-mix(in srgb, var(--gold) 35%, var(--line)); }
+.developer-actions { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 12px; }
+@media (min-width: 640px) { .gacha-result-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } .developer-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); } .dummy-panel { grid-template-columns: 1fr auto; align-items: center; } .dummy-controls { min-width: 260px; } }
+
 </style>
 </head>
 <body data-theme="standard">
@@ -1543,7 +1570,7 @@ select {
       <div class="brand-block">
         <div id="miniAvatar" class="mini-avatar">🌸</div>
         <div>
-          <p class="eyebrow">v0.8 raiden mythic card</p>
+          <p class="eyebrow">v0.9 gacha dev update</p>
           <h1>Neon Muse</h1>
         </div>
       </div>
@@ -1692,6 +1719,21 @@ select {
         </article>
       </section>
 
+      <section class="panel dummy-panel">
+        <div>
+          <p class="eyebrow">Обучение</p>
+          <h3>Тренировочная кукла</h3>
+          <p>Босс-манекен с настраиваемым HP для проверки урона, баффов, ульт и дебаффов.</p>
+        </div>
+        <div class="dummy-controls">
+          <label>
+            HP куклы
+            <input id="dummyHpInput" class="number-input" type="number" min="100" max="999999" value="5000">
+          </label>
+          <button id="startDummyBtn" class="primary-btn">Бой с куклой</button>
+        </div>
+      </section>
+
       <div class="combat-topline">
         <div class="combat-chip">Раунд: <span id="combatRound">1</span></div>
         <div class="combat-chip">Ход: <span id="combatTurn">Игрок</span></div>
@@ -1824,9 +1866,24 @@ select {
         <div id="themeGrid" class="theme-grid"></div>
       </article>
 
+      <article class="panel developer-panel">
+        <p class="eyebrow">Разработчик</p>
+        <h3>Тестовые инструменты</h3>
+        <p>
+          Эти кнопки нужны только для разработки и проверки игры: можно быстро получить карты,
+          кристаллы и проверить гачу/бой без долгого фарма.
+        </p>
+        <div class="developer-actions">
+          <button id="devAllCardsBtn" class="ghost-btn">Получить все карты</button>
+          <button id="devGemsBtn" class="ghost-btn">Получить 99 999 кристаллов</button>
+          <button id="devEverythingBtn" class="primary-btn">Получить всё</button>
+          <button id="devResetPityBtn" class="danger-btn">Сбросить pity</button>
+        </div>
+      </article>
+
       <article class="panel">
         <h3>Данные прототипа</h3>
-        <p>Можно сбросить тестовую коллекцию, кристаллы, профиль и выбранную тему.</p>
+        <p>Можно сбросить тестовую коллекцию, кристаллы, профиль, pity-счётчики и выбранную тему.</p>
         <button id="resetProgressBtn" class="danger-btn">Сбросить прогресс</button>
       </article>
     </section>
@@ -1852,7 +1909,7 @@ select {
   <script>
 const START_TEAM_ENERGY = 3;
 const MAX_TEAM_ENERGY = 6;
-const SAVE_KEY = "neonMuseSaveV04";
+const SAVE_KEY = "neonMuseSaveV09";
 
 const themes = [
   {
@@ -2116,13 +2173,13 @@ const rarityNames = {
 };
 
 const rarityWeights = [
-  ["common", 53],
+  ["common", 54.5],
   ["rare", 27],
   ["epic", 12],
   ["legendary", 3],
   ["sr", 2],
-  ["ssr", 2],
-  ["ssrplus", 1]
+  ["ssr", 1],
+  ["ssrplus", 0.5]
 ];
 
 const enemies = [
@@ -2150,6 +2207,10 @@ const els = {
 
   gemsText: document.querySelector("#gemsText"),
   rollGachaBtn: document.querySelector("#rollGachaBtn"),
+  rollGacha10Btn: document.querySelector("#rollGacha10Btn"),
+  skipGachaBtn: document.querySelector("#skipGachaBtn"),
+  ssrPityText: document.querySelector("#ssrPityText"),
+  ssrPlusPityText: document.querySelector("#ssrPlusPityText"),
   gachaResult: document.querySelector("#gachaResult"),
 
   collectionGrid: document.querySelector("#collectionGrid"),
@@ -2166,6 +2227,10 @@ const els = {
 
   themeGrid: document.querySelector("#themeGrid"),
   resetProgressBtn: document.querySelector("#resetProgressBtn"),
+  devAllCardsBtn: document.querySelector("#devAllCardsBtn"),
+  devGemsBtn: document.querySelector("#devGemsBtn"),
+  devEverythingBtn: document.querySelector("#devEverythingBtn"),
+  devResetPityBtn: document.querySelector("#devResetPityBtn"),
 
   cardPreviewModal: document.querySelector("#cardPreviewModal"),
   closeCardPreviewBtn: document.querySelector("#closeCardPreviewBtn"),
@@ -2177,6 +2242,26 @@ const els = {
   previewStatIcons: document.querySelector("#previewStatIcons"),
   previewAbilityList: document.querySelector("#previewAbilityList"),
   previewText: document.querySelector("#previewText"),
+
+  cardViewer: document.querySelector("#cardViewer"),
+  cardViewerBackdrop: document.querySelector("#cardViewerBackdrop"),
+  closeCardViewerBtn: document.querySelector("#closeCardViewerBtn"),
+  viewerImage: document.querySelector("#viewerImage"),
+  viewerRarity: document.querySelector("#viewerRarity"),
+  viewerName: document.querySelector("#viewerName"),
+  viewerCopies: document.querySelector("#viewerCopies"),
+  viewerSeries: document.querySelector("#viewerSeries"),
+  viewerLine: document.querySelector("#viewerLine"),
+  viewerAtk: document.querySelector("#viewerAtk"),
+  viewerHp: document.querySelector("#viewerHp"),
+  viewerDef: document.querySelector("#viewerDef"),
+  viewerText: document.querySelector("#viewerText"),
+  viewerNormalName: document.querySelector("#viewerNormalName"),
+  viewerNormalDesc: document.querySelector("#viewerNormalDesc"),
+  viewerSkillName: document.querySelector("#viewerSkillName"),
+  viewerSkillDesc: document.querySelector("#viewerSkillDesc"),
+  viewerUltName: document.querySelector("#viewerUltName"),
+  viewerUltDesc: document.querySelector("#viewerUltDesc"),
 
   resultModal: document.querySelector("#resultModal"),
   resultTitle: document.querySelector("#resultTitle"),
@@ -2216,7 +2301,9 @@ const els = {
   basicAttackBtn: document.querySelector("#basicAttackBtn"),
   skillBtn: document.querySelector("#skillBtn"),
   ultimateBtn: document.querySelector("#ultimateBtn"),
-  guardBtn: document.querySelector("#guardBtn")
+  guardBtn: document.querySelector("#guardBtn"),
+  dummyHpInput: document.querySelector("#dummyHpInput"),
+  startDummyBtn: document.querySelector("#startDummyBtn")
 };
 
 function defaultSave() {
@@ -2228,6 +2315,8 @@ function defaultSave() {
     theme: "standard",
     selectedBattleCardId: "nell-tu-home-passion",
     avatarCardId: "sakura-strike",
+    gachaSinceSSR: 0,
+    gachaSinceSSRPlus: 0,
     owned: {
       "sakura-strike": 1,
       "luna-guard": 1,
@@ -2255,6 +2344,9 @@ function loadSave() {
     if (!loaded.owned["raiden-deep-absorption"]) {
       loaded.owned["raiden-deep-absorption"] = 1;
     }
+    loaded.gachaSinceSSR = Number.isFinite(Number(loaded.gachaSinceSSR)) ? Number(loaded.gachaSinceSSR) : 0;
+    loaded.gachaSinceSSRPlus = Number.isFinite(Number(loaded.gachaSinceSSRPlus)) ? Number(loaded.gachaSinceSSRPlus) : 0;
+
     if (!loaded.selectedBattleCardId || !loaded.owned[loaded.selectedBattleCardId]) {
       loaded.selectedBattleCardId = loaded.owned["nell-tu-home-passion"]
         ? "nell-tu-home-passion"
@@ -2410,6 +2502,60 @@ function createEnemyFighter() {
     blindTurns: 0,
     hasteTurns: 0
   };
+}
+
+function createTrainingDummy(hpValue) {
+  const hp = Math.max(100, Math.min(999999, Number(hpValue) || 5000));
+  return {
+    id: "enemy-training-dummy",
+    team: "enemy",
+    cardId: "enemy-training-dummy",
+    name: "Тренировочная кукла",
+    icon: "🎯",
+    image: "",
+    role: "tank",
+    subRole: "boss",
+    maxHp: hp,
+    hp,
+    atk: 15,
+    def: 10,
+    shield: 0,
+    ult: 0,
+    skipTurns: 0,
+    alive: true,
+    basicName: "Слабый удар",
+    skillName: "Проверка брони",
+    ultimateName: "Манекен-режим",
+    skillDamage: 12,
+    ultimateDamage: 20,
+    atkBuffValue: 0,
+    atkBuffTurns: 0,
+    dodgeChance: 0,
+    exposedTurns: 0,
+    exposedMultiplier: 0,
+    defDownTurns: 0,
+    defDownValue: 0,
+    blindTurns: 0,
+    hasteTurns: 0
+  };
+}
+
+function startDummyBattle() {
+  const chosenCard = getSelectedBattleCard();
+  const hp = els.dummyHpInput ? els.dummyHpInput.value : 5000;
+  state = {
+    round: 1,
+    turn: "player",
+    energy: START_TEAM_ENERGY,
+    gameOver: false,
+    extraTurnReady: false,
+    player: buildFighterFromCard(chosenCard, "player"),
+    enemy: createTrainingDummy(hp)
+  };
+  els.resultModal.classList.add("hidden");
+  renderBattlePrep();
+  logCombat(`Тренировочная кукла активирована. HP: ${state.enemy.maxHp}.`);
+  renderBattle();
 }
 
 function startGame() {
@@ -2671,6 +2817,22 @@ function enemyTurn() {
   const enemy = state.enemy;
   const player = state.player;
 
+  if (enemy.cardId === "enemy-training-dummy") {
+    if (Math.random() < 0.25) {
+      addShield(enemy, 25);
+    } else {
+      dealDamage(enemy, player, enemy.atk, enemy.basicName);
+    }
+    gainUlt(player, 10);
+    checkGameOver();
+    if (!state.gameOver) {
+      state.turn = "player";
+      nextRound();
+    }
+    renderBattle();
+    return;
+  }
+
   if (enemy.ult >= 100) {
     enemy.ult = 0;
     dealDamage(enemy, player, enemy.ultimateDamage, `Ульта «${enemy.ultimateName}»`);
@@ -2920,6 +3082,7 @@ function renderAll() {
   renderCollection();
   renderAvatarPicker();
   renderThemes();
+  renderPity();
   renderBattlePrep();
   if (state.player) renderBattle();
 }
@@ -2970,7 +3133,7 @@ function renderCollection() {
     item.tabIndex = 0;
     item.setAttribute("role", "button");
     item.setAttribute("aria-label", `Открыть карточку ${card.name}`);
-    item.innerHTML = cardTemplate(card, true);
+    item.innerHTML = compactCardTemplate(card, true);
     item.addEventListener("click", () => openCardViewer(card));
     item.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
@@ -2995,6 +3158,22 @@ function renderAvatarPicker() {
     });
     els.avatarPicker.appendChild(btn);
   });
+}
+
+function compactCardTemplate(card, showCopies = false) {
+  const art = card.image
+    ? `<img class="compact-card-image" src="${card.image}" alt="${card.name}">`
+    : `<div class="compact-card-fallback">${card.icon}</div>`;
+
+  return `
+    ${art}
+    <div class="compact-card-title">
+      <h3>${card.name}</h3>
+      <p class="rarity-${card.rarity}">${rarityNames[card.rarity]}</p>
+      ${card.line ? `<p>«<span class="${getLineClass(card)}">${card.line}</span>»</p>` : ""}
+      ${showCopies ? `<span class="chip">x${card.copies || save.owned[card.id] || 1}</span>` : ""}
+    </div>
+  `;
 }
 
 function cardTemplate(card, showCopies = false) {
@@ -3121,7 +3300,7 @@ function applyTheme(themeId) {
   document.body.dataset.theme = themeId || "standard";
 }
 
-function rollRarity() {
+function rollRarityBase() {
   const roll = Math.random() * 100;
   let total = 0;
   for (const [rarity, weight] of rarityWeights) {
@@ -3131,35 +3310,99 @@ function rollRarity() {
   return "common";
 }
 
-function rollGacha() {
-  const cost = 100;
-  if (save.gems < cost) {
-    els.gachaResult.className = "gacha-result panel";
-    els.gachaResult.innerHTML = `<h3>Не хватает кристаллов</h3><p>Нужно ${cost}, сейчас ${save.gems}.</p>`;
+function rollRarity() {
+  if (save.gachaSinceSSRPlus >= 159) return "ssrplus";
+  if (save.gachaSinceSSR >= 79) return "ssr";
+  return rollRarityBase();
+}
+
+function updatePityAfterRoll(rarity) {
+  if (rarity === "ssrplus") {
+    save.gachaSinceSSR = 0;
+    save.gachaSinceSSRPlus = 0;
     return;
   }
+  if (rarity === "ssr") {
+    save.gachaSinceSSR = 0;
+    save.gachaSinceSSRPlus += 1;
+    return;
+  }
+  save.gachaSinceSSR += 1;
+  save.gachaSinceSSRPlus += 1;
+}
 
-  save.gems -= cost;
+function renderPity() {
+  if (els.ssrPityText) els.ssrPityText.textContent = save.gachaSinceSSR;
+  if (els.ssrPlusPityText) els.ssrPlusPityText.textContent = save.gachaSinceSSRPlus;
+}
+
+function pickCardByRarity(rarity) {
+  let pool = baseCards.filter((card) => card.rarity === rarity);
+  if (pool.length === 0) pool = baseCards.filter((card) => card.rarity === "rare");
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function performSinglePull() {
   const rarity = rollRarity();
-  const pool = baseCards.filter((card) => card.rarity === rarity);
-  const card = pool[Math.floor(Math.random() * pool.length)];
+  const card = pickCardByRarity(rarity);
   save.owned[card.id] = (save.owned[card.id] || 0) + 1;
-  save.achievement = rarity === "ssrplus"
-    ? "SSR+-призыв"
-    : rarity === "ssr"
-      ? "SSR-призыв"
-      : rarity === "legendary"
-        ? "Легендарный призыв"
-        : "Призыв карты";
+  updatePityAfterRoll(rarity);
+
+  if (rarity === "ssrplus") save.achievement = "SSR+-призыв";
+  else if (rarity === "ssr") save.achievement = "SSR-призыв";
+  else if (rarity === "legendary") save.achievement = "Легендарный призыв";
+  else save.achievement = "Призыв карты";
+
+  return { ...card, copies: save.owned[card.id] };
+}
+
+function rollGacha(count = 1) {
+  const totalCost = 100 * count;
+  if (save.gems < totalCost) {
+    els.gachaResult.className = "gacha-result panel";
+    els.gachaResult.innerHTML = `<h3>Не хватает кристаллов</h3><p>Нужно ${totalCost}, сейчас ${save.gems}.</p>`;
+    return;
+  }
+  save.gems -= totalCost;
+  const results = [];
+  for (let i = 0; i < count; i++) results.push(performSinglePull());
   saveProgress();
-
-  els.gachaResult.className = `gacha-result collection-card ${getBorderClass(card)}`;
-  els.gachaResult.innerHTML = `
-    <p class="eyebrow">Получена карта</p>
-    ${cardTemplate({ ...card, copies: save.owned[card.id] }, true)}
-  `;
-
+  renderGachaResults(results);
   renderAll();
+}
+
+function renderGachaResults(cards) {
+  const order = ["common", "rare", "epic", "legendary", "sr", "ssr", "ssrplus"];
+  const best = cards.reduce((winner, card) => order.indexOf(card.rarity) > order.indexOf(winner.rarity) ? card : winner, cards[0]);
+  els.gachaResult.className = `gacha-result panel ${getBorderClass(best)}`;
+  els.gachaResult.innerHTML = `
+    <div class="gacha-result-header">
+      <div>
+        <p class="eyebrow">Результат призыва</p>
+        <h3>${cards.length === 10 ? "Крутка x10" : "Крутка x1"}</h3>
+      </div>
+      <span class="chip">Лучшее: ${rarityNames[best.rarity]}</span>
+    </div>
+    <div class="gacha-result-grid">
+      ${cards.map((card, index) => `
+        <article class="collection-card compact-collection-card gacha-drop-card rarity-${card.rarity} ${getBorderClass(card)}" style="animation-delay:${index * 110}ms">
+          ${compactCardTemplate(card, true)}
+        </article>
+      `).join("")}
+    </div>
+  `;
+  els.skipGachaBtn.classList.remove("hidden");
+  window.setTimeout(() => {
+    if (els.skipGachaBtn) els.skipGachaBtn.classList.add("hidden");
+  }, Math.min(1800, 600 + cards.length * 110));
+}
+
+function skipGachaAnimation() {
+  document.querySelectorAll(".gacha-drop-card").forEach((card) => {
+    card.classList.add("skipped");
+    card.style.animationDelay = "0ms";
+  });
+  els.skipGachaBtn.classList.add("hidden");
 }
 
 function showScreen(screenName) {
@@ -3169,6 +3412,42 @@ function showScreen(screenName) {
   document.querySelectorAll(".nav-btn").forEach((btn) => {
     btn.classList.toggle("active", btn.dataset.screen === screenName);
   });
+}
+
+function devGetAllCards() {
+  baseCards.forEach((card) => {
+    save.owned[card.id] = Math.max(save.owned[card.id] || 0, 1);
+  });
+  save.achievement = "Разработчик: все карты";
+  saveProgress();
+  renderAll();
+}
+
+function devGetGems() {
+  save.gems = Math.max(save.gems || 0, 99999);
+  save.achievement = "Разработчик: кристаллы";
+  saveProgress();
+  renderAll();
+}
+
+function devResetPity() {
+  save.gachaSinceSSR = 0;
+  save.gachaSinceSSRPlus = 0;
+  save.achievement = "Разработчик: pity сброшен";
+  saveProgress();
+  renderAll();
+}
+
+function devGetEverything() {
+  baseCards.forEach((card) => {
+    save.owned[card.id] = Math.max(save.owned[card.id] || 0, 1);
+  });
+  save.gems = 99999;
+  save.gachaSinceSSR = 79;
+  save.gachaSinceSSRPlus = 159;
+  save.achievement = "Разработчик: получено всё";
+  saveProgress();
+  renderAll();
 }
 
 function resetProgress() {
@@ -3201,11 +3480,18 @@ els.basicAttackBtn.addEventListener("click", useBasicAttack);
 els.skillBtn.addEventListener("click", useSkill);
 els.ultimateBtn.addEventListener("click", useUltimate);
 els.guardBtn.addEventListener("click", useGuard);
-els.rollGachaBtn.addEventListener("click", rollGacha);
+if (els.startDummyBtn) els.startDummyBtn.addEventListener("click", startDummyBattle);
+els.rollGachaBtn.addEventListener("click", () => rollGacha(1));
+if (els.rollGacha10Btn) els.rollGacha10Btn.addEventListener("click", () => rollGacha(10));
+if (els.skipGachaBtn) els.skipGachaBtn.addEventListener("click", skipGachaAnimation);
 els.rarityFilter.addEventListener("change", renderCollection);
 els.resetProgressBtn.addEventListener("click", resetProgress);
-els.closeCardViewerBtn.addEventListener("click", closeCardViewer);
-els.cardViewerBackdrop.addEventListener("click", closeCardViewer);
+if (els.devAllCardsBtn) els.devAllCardsBtn.addEventListener("click", devGetAllCards);
+if (els.devGemsBtn) els.devGemsBtn.addEventListener("click", devGetGems);
+if (els.devEverythingBtn) els.devEverythingBtn.addEventListener("click", devGetEverything);
+if (els.devResetPityBtn) els.devResetPityBtn.addEventListener("click", devResetPity);
+if (els.closeCardViewerBtn) els.closeCardViewerBtn.addEventListener("click", closeCardViewer);
+if (els.cardViewerBackdrop) els.cardViewerBackdrop.addEventListener("click", closeCardViewer);
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && !els.cardViewer.classList.contains("hidden")) {
     closeCardViewer();
